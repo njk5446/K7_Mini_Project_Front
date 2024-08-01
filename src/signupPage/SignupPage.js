@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const SignUpPage = () => {
+const SignupPage = () => {
     // useState로 값을 변화시킴
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useStat("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [role, setRole] = useState("");
 
     const navigate = useNavigate(); // 다른 경로로 이동할때 사용
@@ -49,7 +49,6 @@ const SignUpPage = () => {
             console.error("오류 발생:", error)
         }
     }
-};
 
 return (
     <div className="signup-container">
@@ -98,11 +97,31 @@ return (
                         value="manager"
                         checked={role === "manager"}
                         onChange={() => setRole("manager")}
-                        
                     />
+                    <label htmlFor="manager">매니저</label>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="admin"
+                        value="admin"
+                        checked={role === "admin"}
+                        onChange={() => setRole("admin")}
+                    />
+                    <label htmlFor="admin">운영자</label>
                 </div>
             </div>
 
+            <button id="signup-button" onClick={handleSignup}>
+                회원가입
+            </button>
+
+            <p className="login-link">
+                <Link to="/login">로그인</Link>
+            </p>
         </form>
     </div>
-)
+);
+};
+
+export default SignupPage;

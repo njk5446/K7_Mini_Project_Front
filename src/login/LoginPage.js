@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // React 라이브러리에서 React와 useState 훅을 가져오는 것
 // useState: const[변경할 변수, 변경할값] = useState("");
-import { Link, useNavigate } from "react-router-dom";
+import { BrowserRouter, Link, useNavigate } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 
 const LoginPage = () => {
@@ -85,6 +85,8 @@ const LoginPage = () => {
         </p>
       </form>
     </div>
+
+    
   );
 };
 
