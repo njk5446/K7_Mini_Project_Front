@@ -1,9 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './App.css';
-import LoginPage from './login/LoginPage';
-import MemberPage from './member/MemberPage';
-import SignupPage from './signupPage/SignupPage';
+import LoginPage from './pages/LoginPage';
+import MemberPage from './pages/MemberPage';
+import SignupPage from './pages/SignupPage';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         </header>
         <main className='grow w-full flex justify-center items-center overflow-y-auto '>
           <Routes>
-            <Route path='/' element={<div></div>} />
+            <Route path='/' element={<HomePage />} />
             <Route path='/member' element={<MemberPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignupPage />} />
