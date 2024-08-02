@@ -5,12 +5,14 @@ import LoginPage from './pages/LoginPage';
 import MemberPage from './pages/MemberPage';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
+import { useEffect, useState } from 'react';
 
 function App() {
+
   return (
     <BrowserRouter>
       <div className="flex flex-col w-full max-w-screen-lg h-screen mx-auto">
-        <header className='flex justify-between items-center text-xl font-bold h-20 p-10 bg-slate-200'>
+        <header className='flex justify-between items-center text-xl font-bold h-20 p-10 bg-green-400'>
           <li className='mx-2 p-2 rounded-md
                          hover:bg-white hover:text-blue-600'>
               <Link to='/'>홈</Link>
