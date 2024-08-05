@@ -1,11 +1,11 @@
 import {useState, useEffect} from "react";
 import React from "react";
 
-const ShowData = () => {
+const Sample = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:8080')
+        fetch('http://192.168.0.126:8080')
             .then((res) => {
                 return res.json();
             })

@@ -8,20 +8,34 @@ import HomePage from './pages/HomePage';
 import { useEffect, useState } from 'react';
 
 function App() {
+  const [message, setMessage] = useState(""); // 
+
+  useEffect(() => {
+    fetch('/sample')
+         .then(response => response.text())
+         .then(message => {
+            setMessage(message);
+         });
+  }, [])
 
   return (
     <BrowserRouter>
       <div className="flex flex-col w-full max-w-screen-lg h-screen mx-auto">
         <header className='flex justify-between items-center text-xl font-bold h-20 p-10 bg-green-400'>
+          
+          <ul className='flex justify-center items-center text-sm'>
           <li className='mx-2 p-2 rounded-md
                          hover:bg-white hover:text-blue-600'>
               <Link to='/'>홈</Link>
           </li>
-          <ul className='flex justify-center items-center text-sm'>
           <li className='mx-2 p-2 rounded-md
                          hover:bg-white hover:text-blue-600'>
               <Link to='/member'>멤버</Link>
           </li>
+          {/* <li className='mx-2 p-2 rounded-md
+                         hover:bg-white hover:text-blue-600'>
+              <Link to='/member'>샘플</Link>
+          </li> */}
           </ul>
         </header>
         <main className='grow w-full flex justify-center items-center overflow-y-auto '>
@@ -30,6 +44,7 @@ function App() {
             <Route path='/member' element={<MemberPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignupPage />} />
+            {/* <Route path='/sample' element={<Sample />} /> */}
           </Routes>
         </main>
       </div>
