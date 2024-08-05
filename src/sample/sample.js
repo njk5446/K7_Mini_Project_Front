@@ -2,15 +2,18 @@ import {useState, useEffect} from "react";
 import React from "react";
 
 const Sample = () => {
-    const [data, setData] = useState([]);
+    
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
-        fetch('http://192.168.0.126:8080')
-            .then((res) => {
-                return res.json();
-            })
-            .then(function (result) {
-                setData(result);
-            })
-    }, []);
+        document.title = `${count}번 클릭했습니다.`;
+    });
+
+    return (
+        <div>
+            <button onClick={() => setCount(count + 1)}>
+                클릭
+            </button>
+        </div>
+    );
 }
