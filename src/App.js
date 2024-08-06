@@ -7,6 +7,7 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import { useEffect, useState } from 'react';
 import BoardList from './pages/BoardList';
+import BoardDetail from './pages/BoardDetail';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/board' element={<BoardList />} />
+            <Route path='/board/view' element={<BoardDetail />} />
           </Routes>
         </main>
       </div>
