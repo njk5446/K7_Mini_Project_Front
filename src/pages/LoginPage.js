@@ -42,7 +42,7 @@ const LoginPage = () => {
     ).then(resp => {
 
       if (resp.status === 200) { // 200(성공)인지 응답 상태 확인
-        token = resp.headers.get("Authorization").replace("Bearer", "")
+        token = resp.headers.get("Authorization")
         // sessionStorage: 브라우저 내장 객체로서, 데이터 저장소
         sessionStorage.setItem("token", token); // 토큰 저장 (데이터 저장소에)
         navigate("/"); // 로그인 성공시 홈으로 이동
