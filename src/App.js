@@ -5,7 +5,6 @@ import LoginPage from './pages/LoginPage';
 import MemberPage from './pages/MemberPage';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
-import { useEffect, useState } from 'react';
 import BoardList from './pages/BoardList';
 import BoardDetail from './pages/BoardDetail';
 
