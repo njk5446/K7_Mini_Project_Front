@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // React 라이브러리에서 React와 useState 훅을 가져오는 것
 // useState: const[변경할 변수, 변경할값] = useState("");
-import { BrowserRouter, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 
 const LoginPage = () => {
@@ -23,7 +23,7 @@ const LoginPage = () => {
     // 1초 대기 후 비동기 요청의 응답을 반환
 
     // 서버 요청의 응답
-    const response = await fetch(
+    await fetch(
       // fetch: 서버에 HTTP 요청을 보내는 함수
       // fetch 함수는 Promise를 반환하고 
       // await는 fetch 요청에서 Promise를 통해 성공적으로 반환하면 reponse 함수로 들어간다
@@ -32,7 +32,6 @@ const LoginPage = () => {
         method: "POST", // 데이터를 서버에 제출하기 위해서 HTTP POST 메서드 사용
         headers: {
           "Content-Type": "application/json", // 요청 본문을 json 타입임을 나타낸다
-          // "Autorization": sessionStorage.getItem("token")
         },
         body: JSON.stringify({ // JSON.stringify를 통해 email과 password를 JSON 문자열로 변환
           userid: userId,
@@ -45,9 +44,10 @@ const LoginPage = () => {
         token = resp.headers.get("Authorization")
         // sessionStorage: 브라우저 내장 객체로서, 데이터 저장소
         sessionStorage.setItem("token", token); // 토큰 저장 (데이터 저장소에)
+        alert("로그인되었습니다.")
         navigate("/"); // 로그인 성공시 홈으로 이동
       } else {
-        alert("로그인 실패했습니다.");
+        alert("아이디 혹은 비밀번호가 틀렸습니다.");
       }
     }
 
@@ -66,7 +66,7 @@ const LoginPage = () => {
             <div>
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">아이디</label>
               <div>
-                <input required className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                   type="text"
                   id="userId"
                   value={userId}

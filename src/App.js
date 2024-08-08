@@ -7,6 +7,8 @@ import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import BoardList from './pages/BoardList';
 import BoardDetail from './pages/BoardDetail';
+import BoardWrite from './pages/BoardWrite';
+import BoardEdit from './pages/BoardEdit';
 
 function App() {
   return (
@@ -25,7 +27,7 @@ function App() {
           </li>
           <li className='mx-2 p-2 rounded-md
                          hover:bg-white hover:text-blue-600'>
-              <Link to='/board'>게시판</Link>
+              <Link to='/board' state={{ refresh: true }}>게시판</Link>
           </li>
           </ul>
         </header>
@@ -37,6 +39,8 @@ function App() {
             <Route path='/signup' element={<SignupPage />} />
             <Route path='/board' element={<BoardList />} />
             <Route path='/board/view' element={<BoardDetail />} />
+            <Route path='/write' element={<BoardWrite />} />
+            <Route path='/edit' element={<BoardEdit />} />
           </Routes>
         </main>
       </div>
