@@ -11,12 +11,12 @@ import BoardWrite from './pages/BoardWrite';
 import BoardEdit from './pages/BoardEdit';
 import UserProfile from './pages/UserProfile';
 import { useState } from 'react';
-import { FaHome, FaSignInAlt, FaUser, FaUserCog } from "react-icons/fa";
+import { FaHome, FaSignInAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
 
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false); // 인증상태를 초기는 false로 선언
-  const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 
+  const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 열림 닫힘여부, (초기상태는 닫힘(false))
 
   // 로그인폼으로 로그인시, 호출
   const handleLogin = () => {
@@ -54,6 +54,14 @@ function App() {
                       className='flex items-center space-x-2 hover:text-blue-400'>
                         <FaSignInAlt className='text-lg' />
                         <span>로그인</span>
+                      </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/signup"
+                      className='flex items-center space-x-2 hover:text-blue-400'>
+                        <FaUserPlus className='text-lg' />
+                        <span>회원가입</span>
                       </Link>
                   </li>
                   <li>
