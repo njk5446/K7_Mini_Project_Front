@@ -5,8 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 
 const LoginPage = () => {
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const [inputUserId, setInputUserId] = useState("");
+  const [inputPassword, setInputPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
 
   let token = "";
@@ -33,17 +33,20 @@ const LoginPage = () => {
         headers: {
           "Content-Type": "application/json", // 요청 본문을 json 타입임을 나타낸다
         },
-        body: JSON.stringify({ // JSON.stringify를 통해 email과 password를 JSON 문자열로 변환
-          userid: userId,
-          password: password,
+        body: JSON.stringify({ 
+          userid: inputUserId, // 로그인폼에 현재 입력한 값(value)을 userid에 저장
+          password: inputPassword, // 로그인폼에 현재 입력한 값(value)을 password에 저장 
         }),
+        // JSON.stringify를 통해 바디안에 정의한 userid과 password를 JSON 문자열로 변환
       }
     ).then(resp => {
 
       if (resp.status === 200) { // 200(성공)인지 응답 상태 확인
         token = resp.headers.get("Authorization")
         // sessionStorage: 브라우저 내장 객체로서, 데이터 저장소
-        sessionStorage.setItem("token", token); // 토큰 저장 (데이터 저장소에)
+        sessionStorage.setItem("token", token); // 토큰 저장 (세션 저장소에)
+        // 토큰만 저장한 이유? 
+        // sessionStorage에 필요한 최소한의 정보만 저장하는 것이 바람직하다. 토큰만 저장하면 데이터 관리 또한 간편해진다.
         alert("로그인되었습니다.")
         navigate("/"); // 로그인 성공시 홈으로 이동
       } else {
@@ -69,8 +72,10 @@ const LoginPage = () => {
                 <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                   type="text"
                   id="userId"
-                  value={userId}
-                  onChange={(e) => setUserId(e.target.value)}
+                  value={inputUserId}
+                  onChange={(e) => setInputUserId(e.target.value)}
+                  // onChange: 입력하는동안 문자를 타이핑할때마다 onChange에서 정의한 파라미터의 e(이벤트)가 발생
+                  // 여기서 e.target.value는 현재 입력한 값으로, userId의 값을 현재 입력한 값으로 변경시킨다.
                 />
               </div>
             </div>
@@ -82,8 +87,8 @@ const LoginPage = () => {
               <div><input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 type="password"
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={inputPassword}
+                onChange={(e) => setInputPassword(e.target.value)}
               />
               </div>
             </div>

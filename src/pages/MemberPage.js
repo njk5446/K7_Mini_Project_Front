@@ -1,13 +1,13 @@
-import LoginPage from "./LoginPage";
+// import LoginPage from "./LoginPage";
 
-export default function MemberPage() {
+// export default function MemberPage() {
 
 
-    return (
-        <div>
-            <LoginPage />
-        </div>
-    )
-}
+//     return (
+//         <div>
+//             <LoginPage />
+//         </div>
+//     )
+// }
 
 
