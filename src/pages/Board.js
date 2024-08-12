@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_URL;
+
 const Board = ({ idx, title, content, create_Date, nickname, station_no }) => {
     const navigate = useNavigate();
 
@@ -13,7 +15,7 @@ const Board = ({ idx, title, content, create_Date, nickname, station_no }) => {
     // 해당 게시글의 수정페이지로 이동하는 함수
     const moveToUpdate = async () => {
         try {
-            const resp = await axios.post(`http://192.168.0.126:8080/checkUser?idx=${idx}`, '', config);
+            const resp = await axios.post(`${url}checkUser?idx=${idx}`, '', config);
             if (resp.status === 200) {
                 navigate(`/edit?sno=${sno}&idx=${idx}`);
             }
@@ -33,7 +35,7 @@ const Board = ({ idx, title, content, create_Date, nickname, station_no }) => {
     //게시물 삭제 기능 함수
     const deleteBoard = async () => {
         try {
-            const resp = await axios.post(`http://192.168.0.126:8080/checkUser?idx=${idx}`, '', config);
+            const resp = await axios.post(`${url}checkUser?idx=${idx}`, '', config);
             if (resp.status === 200) {
                 delBoard();
             }
@@ -50,7 +52,7 @@ const Board = ({ idx, title, content, create_Date, nickname, station_no }) => {
 const delBoard = () => {
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
         // window.confirm: 확인(true), 취소(false)
-        axios.post(`http://192.168.0.126:8080/delete?sno=${sno}&idx=${idx}`, '', config)
+        axios.post(`${url}delete?sno=${sno}&idx=${idx}`, '', config)
             .then(resp => {
                 if (resp.status === 200) {
                     // (===): value, type 모두 동일한지

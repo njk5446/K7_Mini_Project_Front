@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom"; // useParams는 필요 없음
 
+const url = process.env.REACT_APP_API_URL;
+
 const BoardEdit = () => {
     const navigate = useNavigate();
     const [board, setBoard] = useState({
@@ -35,7 +37,7 @@ const BoardEdit = () => {
 
     const checkUser = async () => {
         try {
-            const resp = await axios.post(`http://192.168.0.126:8080/checkUser?idx=${idxno}`, '', config);
+            const resp = await axios.post(`${url}checkUser?idx=${idxno}`, '', config);
             if (resp.status === 200) {
                 getBoard();
                 return 1;
@@ -64,7 +66,7 @@ const BoardEdit = () => {
 
     const getBoard = async () => { // 비동기 함수 getBoard를 선언, 데이터를 비동기적으로 가져오기 위해 async로 선언
         try {
-            const resp = await axios.get(`http://192.168.0.126:8080/board/view?sno=${sno}&idx=${idxno}`);
+            const resp = await axios.get(`${url}board/view?sno=${sno}&idx=${idxno}`);
             setBoard(resp.data); // resp에 가져온 데이터를 board 상태변수에 저장
         } catch (error) {
             alert("게시판 자료를 가져오는데 실패했습니다.");
@@ -76,7 +78,7 @@ const BoardEdit = () => {
 
         // 백엔드에서 글쓰기 요청시 토큰값이 있어야 수정 허용하도록 설정
         try {
-            const resp = await axios.post(`http://192.168.0.126:8080/edit?sno=${sno}&idx=${idxno}`, JSON.stringify(board), config);
+            const resp = await axios.post(`${url}edit?sno=${sno}&idx=${idxno}`, JSON.stringify(board), config);
             if (resp.status === 200) {
                 // (===): value, type 모두 동일한지
                 // (==): value만 동일한지 

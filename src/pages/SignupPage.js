@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_URL;
+
 const SignupPage = () => {
     // useState로 값을 변화시킴
     const [userId, setUserId] = useState("");
@@ -21,7 +23,7 @@ const SignupPage = () => {
     },[idRef.current.value])
 
     const handleDuplicate = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // 새로고침 방지
 
         const checkIDPayload = {
             userid: userId
@@ -33,7 +35,7 @@ const SignupPage = () => {
         }
 
         await fetch(
-            "http://192.168.0.126:8080/signup/checkid",
+            url + "signup/checkid",
             {
                 method: "POST",
 
@@ -79,7 +81,7 @@ const SignupPage = () => {
         };
         // 회원가입에 필요한 서버 통신 
         await fetch(
-            "http://192.168.0.126:8080/signup",
+            url + "signup",
             {
                 method: "POST",
                 headers: {

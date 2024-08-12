@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios"; // HTTP 요청을 간편하게 해주는 라이브러리
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_URL;
+
 const BoardList = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,9 +20,8 @@ const BoardList = () => {
 
     const [boardList, setBoardList] = useState([]); // 빈 리스트 생성
     const getBoardList = async () => {
-        let url = 'http://192.168.0.126:8080/board?sno='
         let sno = '96'
-        const resp = await (await axios.get(url + sno)).data
+        const resp = await (await axios.get(url + 'board?sno=' + sno)).data
         //axios.get: 
         // 해당 역번호(sno)의 게시판 데이터를 응답 변수에 할당
         setBoardList(resp.content)
@@ -58,7 +59,7 @@ const BoardList = () => {
             return
         }
         try {
-            const resp = (await axios.get(`http://192.168.0.126:8080/board/search?searchType=${selectRef.current.value}&keyword=${keyword}`));
+            const resp = (await axios.get(`${url}board/search?searchType=${selectRef.current.value}&keyword=${keyword}`));
             setBoardList(resp.data.content) // resp에 가져온 데이터를 board 상태변수에 저장
             console.log("검색된 결과 호출")
             

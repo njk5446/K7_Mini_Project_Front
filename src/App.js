@@ -10,7 +10,8 @@ import BoardWrite from './pages/BoardWrite';
 import BoardEdit from './pages/BoardEdit';
 import MyPage from './pages/Mypage';
 import { useState } from 'react';
-import { FaHome, FaSignInAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
+import { FaHome, FaSignInAlt, FaSignOutAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
+import UserProfile from './pages/UserProfile';
 
 function App() {
 
@@ -24,8 +25,58 @@ function App() {
 
   // 마이페이지에서 으로 로그아웃시, 호출
   const handleLogout = () => {
+    sessionStorage.removeItem("token");
     setIsAuthenticated(false);
   };
+
+  // 로그인 인증된 사용자는 로그아웃, 마이페이지 아코디언이 보이고,
+  // 로그인 인증되지않은 사용자는 로그인, 회원가입이 보인다
+  const checkLogin = () => {
+    if (sessionStorage.getItem("token") != null) {
+      // 토큰값이 null이 아니면(로그인된 상태), 다음 태그를 아코디언에 출력
+      return (
+        <ul className='mt-2 space-y-2 pl-4'>
+          <li>
+            <button
+              onClick={handleLogout}
+              className='flex items-center space-x-2 hover:text-blue-400'>
+              <FaSignOutAlt className='text-lg' />
+              <span>로그아웃</span>
+            </button>
+          </li>
+          <li>
+            <Link
+              to="/mypage"
+              className='flex items-center space-x-2 hover:text-blue-400'>
+              <FaUserCog className='text-lg' />
+              <span>마이페이지</span>
+            </Link>
+          </li>
+        </ul>
+
+      )
+    }
+    else return ( // 토큰값이 null이면(로그인 안된 상태) 다음 태그를 아코디언에 출력
+      <ul className='mt-2 space-y-2 pl-4'>
+        <li>
+          <Link
+            to="/login"
+            className='flex items-center space-x-2 hover:text-blue-400'>
+            <FaSignInAlt className='text-lg' />
+            <span>로그인</span>
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/signup"
+            className='flex items-center space-x-2 hover:text-blue-400'>
+            <FaUserPlus className='text-lg' />
+            <span>회원가입</span>
+          </Link>
+        </li>
+      </ul>
+    )
+  }
 
   return (
     <BrowserRouter>
@@ -43,44 +94,15 @@ function App() {
               <button
                 onClick={() => setIsAccordionOpen(!isAccordionOpen)}
                 className='flex items-center space-x-2 hover:text-blue-400'>
-                  <FaUser style={{ marginLeft: '10px', marginRight: '10px', fontSize: '30px' }} />
+                <FaUser style={{ marginLeft: '10px', marginRight: '10px', fontSize: '30px' }} />
               </button>
-              {isAccordionOpen && (
-                <ul className='mt-2 space-y-2 pl-4'>
-                  <li>
-                    <Link
-                      to="/login"
-                      className='flex items-center space-x-2 hover:text-blue-400'>
-                        <FaSignInAlt className='text-lg' />
-                        <span>로그인</span>
-                      </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/signup"
-                      className='flex items-center space-x-2 hover:text-blue-400'>
-                        <FaUserPlus className='text-lg' />
-                        <span>회원가입</span>
-                      </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/mypage"
-                      className='flex items-center space-x-2 hover:text-blue-400'>
-                        <FaUserCog className='text-lg' />
-                        <span>마이페이지</span>
-                      </Link>
-                  </li>
-                </ul>
-              )}
+              {isAccordionOpen && 
+                checkLogin()
+              }
             </li>
-            {/* <li className='mx-2 p-2 rounded-md
-                         hover:bg-white hover:text-blue-600'>
-              <Link to='/userProfile' style={{marginRight: '8px', fontSize: '25px'}}>회원정보</Link>
-            </li> */}
             <li className='mx-2 p-2 rounded-md
                          hover:bg-white hover:text-blue-600'>
-              <Link to='/board' state={{ refresh: true }} style={{marginRight: '8px', fontSize: '25px'}}>게시판</Link>
+              <Link to='/board' state={{ refresh: true }} style={{ marginRight: '8px', fontSize: '25px' }}>게시판</Link>
             </li>
           </ul>
         </header>
@@ -88,24 +110,26 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/login'
-              element={isAuthenticated ? (<Navigate to="/mypage" /> ): (<LoginPage onLogin={handleLogin} />)} />
+              element={isAuthenticated ? (<Navigate to="/mypage" />) : (<LoginPage onLogin={handleLogin} />)} />
             {/* 로그인으로 인증되면 true(Navigate훅을 통해 userProfile 컴포넌트로 접근), 
             로그인 안했으면 false(LoginPage 컴포넌트로 접근)
               */}
             {/* onLogin: 로그인폼에서 로그인 시도할때, handleLogin 함수가 호출되어 isAuthenticated=true. */}
             <Route path='/mypage'
-              element={isAuthenticated ? (<MyPage onLogout={handleLogout} />) : (<Navigate to="/login" />) } />
+              element={isAuthenticated ? (<MyPage onLogout={handleLogout} />) : (<Navigate to="/login" />)} />
             {/* 로그인 인증된것인지(인증후 내비게이트로 이동되었을시, 직접 userProfile로 접근 시) 확인 후 
                 true(UserProfile의 로그아웃폼 처리) 
                 false(내비게이트 훅을 통해 로그인페이지로 리다이렉트)
                 onLogout: 로그아웃폼에서 로그아웃 시도할때, handleLogout 함수가 호출되어 isAuthenticated=false*/}
-            <Route path='/signup' 
+            <Route path='/signup'
               element={<SignupPage />} />
             <Route path='/board' element={<BoardList />} />
             <Route path='/board/view' element={<BoardDetail />} />
             <Route path='/write' element={<BoardWrite />} />
             <Route path='/edit' element={<BoardEdit />} />
-            
+            <Route path='/userProfile'
+              element={isAuthenticated ? (<UserProfile onLogout={handleLogout} />) : (<Navigate to='/userProfile' />)} />
+
           </Routes>
         </main>
       </div>

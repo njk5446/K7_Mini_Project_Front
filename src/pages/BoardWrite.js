@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_URL;
+
 // 게시판 글쓰기
 const BoardWrite = () => {
     const navigate = useNavigate();
@@ -42,7 +44,7 @@ const BoardWrite = () => {
         // axios.post(요청을 보낼 서버 주소, 서버로 전송할 데이터)
         let sno = 96; // 역번호는 임의로 넣음
         try {
-            await axios.post(`http://192.168.0.126:8080/write?sno=${sno}`, JSON.stringify(board), config);
+            await axios.post(`${url}write?sno=${sno}`, JSON.stringify(board), config);
             // 글쓰기를 하려면 역번호, JSON 변환된 board 객체, token 값이 넘어가도록 axios.post 지정
 
             // 서버에 요청 성공하면 alert을 띄우고 페이지 이동

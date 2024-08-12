@@ -3,15 +3,21 @@ import React, { useState } from "react";
 // useState: const[변경할 변수, 변경할값] = useState("");
 import { Link, useNavigate } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
+import Loading from "./Loading";
+
+const url = process.env.REACT_APP_API_URL;
 
 const LoginPage = ({onLogin}) => {
   const [inputUserId, setInputUserId] = useState("");
   const [inputPassword, setInputPassword] = useState("");
-  const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
+  const [loading, setLoading] = useState(false); // 로딩중 출력
 
   let token = "";
   const navigate = useNavigate(); // useNavigate: 다른 경로(페이지) 이동 내장 객체
 
+  if (loading) {
+    return <Loading />; 
+  }
   const handleLogin = async (event) => {
     // 비동기: 코드가 실행되는 동안 다른 작업을 동시에 진행하는 방식
     // async(이벤트 파라미터): 비동기작업 요청 시 handleLogin함수 호출  
@@ -22,12 +28,15 @@ const LoginPage = ({onLogin}) => {
     // setTimeout(비동기 요청의 응답값, 기다리는 시간)
     // 1초 대기 후 비동기 요청의 응답을 반환
 
+    // 처리중입니다. 화면 서버응답되기전까지 출력
+    setLoading(true)
+    
     // 서버 요청의 응답
     await fetch(
       // fetch: 서버에 HTTP 요청을 보내는 함수
       // fetch 함수는 Promise를 반환하고 
       // await는 fetch 요청에서 Promise를 통해 성공적으로 반환하면 reponse 함수로 들어간다
-      'http://192.168.0.126:8080/login', // 요청을 보낼 서버의 URL 
+      url + 'login', // 요청을 보낼 서버의 URL 
       {
         method: "POST", // 데이터를 서버에 제출하기 위해서 HTTP POST 메서드 사용
         headers: {
@@ -49,13 +58,15 @@ const LoginPage = ({onLogin}) => {
         // sessionStorage에 필요한 최소한의 정보만 저장하는 것이 바람직하다. 토큰만 저장하면 데이터 관리 또한 간편해진다.
         onLogin();
         alert("로그인되었습니다.")
+        
         navigate("/"); // 로그인 성공시 홈으로 이동
       } else {
         alert("아이디 혹은 비밀번호가 틀렸습니다.");
       }
     }
-
-    );
+    ).finally (() => {
+      setLoading(false) // 처리중 메시지 
+    })
   }
     // 서버 응답 결과
 
@@ -93,9 +104,6 @@ const LoginPage = ({onLogin}) => {
               />
               </div>
             </div>
-            {loginCheck && (
-              <label style={{ color: "red" }}>아이디 혹은 비밀번호가 틀렸습니다.</label>
-            )}
             <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" onClick={handleLogin}>로그인</button>
 
             <p className="mt-10 text-center text-sm text-gray-500">
