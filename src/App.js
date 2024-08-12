@@ -2,14 +2,13 @@ import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
-import MemberPage from './pages/MemberPage';
 import SignupPage from './pages/SignupPage';
 import HomePage from './pages/HomePage';
 import BoardList from './pages/BoardList';
 import BoardDetail from './pages/BoardDetail';
 import BoardWrite from './pages/BoardWrite';
 import BoardEdit from './pages/BoardEdit';
-import UserProfile from './pages/UserProfile';
+import MyPage from './pages/Mypage';
 import { useState } from 'react';
 import { FaHome, FaSignInAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
 
@@ -21,12 +20,12 @@ function App() {
   // 로그인폼으로 로그인시, 호출
   const handleLogin = () => {
     setIsAuthenticated(true);
-  }
+  };
 
   // 마이페이지에서 으로 로그아웃시, 호출
   const handleLogout = () => {
     setIsAuthenticated(false);
-  }
+  };
 
   return (
     <BrowserRouter>
@@ -66,7 +65,7 @@ function App() {
                   </li>
                   <li>
                     <Link
-                      to="/userProfile"
+                      to="/mypage"
                       className='flex items-center space-x-2 hover:text-blue-400'>
                         <FaUserCog className='text-lg' />
                         <span>마이페이지</span>
@@ -88,24 +87,25 @@ function App() {
         <main className='grow w-full flex justify-center items-center overflow-y-auto '>
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='/member' element={<MemberPage />} />
             <Route path='/login'
-              element={isAuthenticated ? <Navigate to="/userProfile" /> : <LoginPage onLogin={handleLogin} />} />
+              element={isAuthenticated ? (<Navigate to="/mypage" /> ): (<LoginPage onLogin={handleLogin} />)} />
             {/* 로그인으로 인증되면 true(Navigate훅을 통해 userProfile 컴포넌트로 접근), 
             로그인 안했으면 false(LoginPage 컴포넌트로 접근)
               */}
             {/* onLogin: 로그인폼에서 로그인 시도할때, handleLogin 함수가 호출되어 isAuthenticated=true. */}
-            <Route path='/userProfile'
-              element={isAuthenticated ? <UserProfile onLogout={handleLogout} /> : <Navigate to="/login" />} />
+            <Route path='/mypage'
+              element={isAuthenticated ? (<MyPage onLogout={handleLogout} />) : (<Navigate to="/login" />) } />
             {/* 로그인 인증된것인지(인증후 내비게이트로 이동되었을시, 직접 userProfile로 접근 시) 확인 후 
                 true(UserProfile의 로그아웃폼 처리) 
                 false(내비게이트 훅을 통해 로그인페이지로 리다이렉트)
                 onLogout: 로그아웃폼에서 로그아웃 시도할때, handleLogout 함수가 호출되어 isAuthenticated=false*/}
-            <Route path='/signup' element={<SignupPage />} />
+            <Route path='/signup' 
+              element={<SignupPage />} />
             <Route path='/board' element={<BoardList />} />
             <Route path='/board/view' element={<BoardDetail />} />
             <Route path='/write' element={<BoardWrite />} />
             <Route path='/edit' element={<BoardEdit />} />
+            
           </Routes>
         </main>
       </div>

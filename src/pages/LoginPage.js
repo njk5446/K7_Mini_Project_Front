@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 
-const LoginPage = () => {
+const LoginPage = ({onLogin}) => {
   const [inputUserId, setInputUserId] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [loginCheck, setLoginCheck] = useState(false); // 로그인 상태 체크
@@ -47,6 +47,7 @@ const LoginPage = () => {
         sessionStorage.setItem("token", token); // 토큰 저장 (세션 저장소에)
         // 토큰만 저장한 이유? 
         // sessionStorage에 필요한 최소한의 정보만 저장하는 것이 바람직하다. 토큰만 저장하면 데이터 관리 또한 간편해진다.
+        onLogin();
         alert("로그인되었습니다.")
         navigate("/"); // 로그인 성공시 홈으로 이동
       } else {

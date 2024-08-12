@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const UserProfile = ({onLogout}) => {
+const MyPage = ({onLogout}) => {
     //로그아웃 처리 함수
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -20,4 +20,4 @@ const UserProfile = ({onLogout}) => {
         </div>
     )
 }
-export default UserProfile;
+export default MyPage;
