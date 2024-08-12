@@ -19,12 +19,12 @@ const BoardDetail = () => {
     const getBoard = async () => { // 비동기함수 getBoard를 선언, 데이터를 비동기적으로 가져오기 위해 async로 선언
         try {
             const resp = (await axios.get(`http://192.168.0.126:8080/board/view?sno=${sno}&idx=${idx}`));
-            console.log(resp.data)
+            console.log("보드디테일에서 view 메서드 호출")
             setBoard(resp.data) // resp에 가져온 데이터를 board 상태변수에 저장
         } // axios를 통해 API를 호출하고 await으로 API 응답을 기다린다.     resp 응답변수에 data 속성을 저장한다
         catch (error) {
             alert("게시판 자료를 가져오는데 실패했습니다.")
-            navigate(`/board`);
+            navigate(`/`);
         }
         finally {
             setLoading(false); // 데이터를 board 게시판에 저장했으므로 loading상태를 false로 설정해서 로딩이 완료됨
@@ -34,7 +34,7 @@ const BoardDetail = () => {
 
     useEffect(() => {
         getBoard();
-    }, [sno, idx]) // 컴포넌트의 sno, idx가 변경될때마다 getBoard 함수가 호출된다
+    }, [])
 
     if (loading) {
         return <div>Loading...</div>;

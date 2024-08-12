@@ -11,7 +11,7 @@ const BoardEdit = () => {
 
     const params = new URLSearchParams(useLocation().search);
     const idxno = parseInt(params.get('idx'), 10); // 진수 10으로 변환
-    let sno = 96;
+    const sno = parseInt(params.get('sno'), 10);
 
     const { title, content } = board; // 초기화한데 게시물(board)을 title, content의 value에 저장한다.
 
@@ -24,10 +24,47 @@ const BoardEdit = () => {
         });
     };
 
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json', // 요청 본문의 board 데이터를 json 타입으로 지정
+            'Authorization': sessionStorage.getItem("token")
+        }
+    };
+
+
+    const checkUser = async () => {
+        try {
+            const resp = await axios.post(`http://192.168.0.126:8080/checkUser?idx=${idxno}`, '', config);
+            if (resp.status === 200) {
+                getBoard();
+                return 1;
+            }
+        }
+        catch (error) {
+            if (error.response.status === 401) {
+                alert('게시글 작성자가 아니므로 해당 게시글을 수정할 수 없습니다.');
+                navigate("/")
+                return 0;
+            }
+        }
+    }
+
+    // 주소 직접 입력하여 접근할 때 방지하는 메서드
+    const checkToken = () => {
+        if (sessionStorage.getItem("token") == null) {
+            alert("잘못된 접근입니다.")
+            navigate('/')
+            return;
+        }
+        else if (checkUser() == 0) {
+            alert("해당 게시글을 수정할 권한이 없습니다.")
+        }
+    }
+
     const getBoard = async () => { // 비동기 함수 getBoard를 선언, 데이터를 비동기적으로 가져오기 위해 async로 선언
         try {
             const resp = await axios.get(`http://192.168.0.126:8080/board/view?sno=${sno}&idx=${idxno}`);
-            console.log(resp.data);
             setBoard(resp.data); // resp에 가져온 데이터를 board 상태변수에 저장
         } catch (error) {
             alert("게시판 자료를 가져오는데 실패했습니다.");
@@ -36,15 +73,10 @@ const BoardEdit = () => {
 
     // 게시글 수정
     const editBoard = async () => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json', // 요청 본문의 board 데이터를 json 타입으로 지정
-                'Authorization': sessionStorage.getItem("token")
-            }
-        }; // 백엔드에서 글쓰기 요청시 토큰값이 있어야 수정 허용하도록 설정
-        console.log("await 전");
+
+        // 백엔드에서 글쓰기 요청시 토큰값이 있어야 수정 허용하도록 설정
         try {
-            const resp = await axios.post(`http://192.168.0.126:8080/edit?idx=${idxno}`, JSON.stringify(board), config);
+            const resp = await axios.post(`http://192.168.0.126:8080/edit?sno=${sno}&idx=${idxno}`, JSON.stringify(board), config);
             if (resp.status === 200) {
                 // (===): value, type 모두 동일한지
                 // (==): value만 동일한지 
@@ -57,7 +89,7 @@ const BoardEdit = () => {
             } else {
                 alert('알 수 없는 오류가 발생했습니다.');
             }
-            navigate(`/board/view?sno=${sno}&idx=${idxno}`); // 수정: '=' 추가
+            return;
         }
     };
 
@@ -68,8 +100,8 @@ const BoardEdit = () => {
 
     // 컴포넌트 마운트 시 게시글 가져오기
     useEffect(() => {
-        getBoard();
-    }, [idxno, sno]); // 의존성 배열에 필요한 변수를 추가
+        checkToken();
+    }, []); // 의존성 배열에 필요한 변수를 추가
 
     return (
         <div>
@@ -93,10 +125,10 @@ const BoardEdit = () => {
             </div>
             <br />
             <div>
-                <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" 
-                onClick={editBoard}>수정</button>
-                <button className="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" 
-                onClick={backToDetail}>취소</button>
+                <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                    onClick={editBoard}>수정</button>
+                <button className="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                    onClick={backToDetail}>취소</button>
             </div>
         </div>
     );
