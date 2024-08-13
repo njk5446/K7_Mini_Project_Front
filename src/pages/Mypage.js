@@ -7,7 +7,6 @@ const MyPage = ({onLogout}) => {
     const handleLogout = () => {
         sessionStorage.removeItem("token"); // 세션에 현재 토큰만 저장되어있기 때문에 토큰만 제거하면됨
         onLogout();
-        alert("로그아웃 되었습니다.");
         navigate("/"); // 로그아웃시 자동으로 홈화면으로 이동
         window.location.reload();
     }

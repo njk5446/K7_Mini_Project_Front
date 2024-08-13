@@ -26,6 +26,7 @@ function App() {
   // 마이페이지에서 으로 로그아웃시, 호출
   const handleLogout = () => {
     sessionStorage.removeItem("token");
+    alert('로그아웃 되었습니다.');
     setIsAuthenticated(false);
   };
 
