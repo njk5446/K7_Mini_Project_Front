@@ -101,6 +101,7 @@ const UserProfile = ({onLogout}) => {
     }
 
 
+    // 랜덤 닉네임 생성 함수
     const generateRandomNickname = async () => {
         // async: 비동기 함수이며, 항상 Promise를 반환한다.
         const resp = await fetch(url + "mypage/randomnick");
@@ -109,7 +110,8 @@ const UserProfile = ({onLogout}) => {
         return await resp.text(); // 텍스트로 변환될때까지 기다리고 반환
         
     }
-    
+
+    // 랜덤 닉네임을 인풋박스에 넣는 함수
     const handleRandomNickname = async () => {
         const randomNick = await generateRandomNickname(); // 현재 randomNick에 mypage/randomnick의 text를 저장
         setNickname(randomNick); // 닉네임에 저장하면 nickName에 출력된다
