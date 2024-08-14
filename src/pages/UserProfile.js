@@ -212,6 +212,7 @@ const UserProfile = ({ onLogout }) => {
             </button>
             {removeConfirm && (
                 <RemovePopUp
+                    onFlag={1}
                     onConfirm={handleRemoveAccount}
                     onCancel={() => setRemoveConfirm(false)}
                 />

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 // 회원탈퇴 버튼 클릭시 출력되는 회원탈퇴확인 팝업
 const RemovePopUp = ({ onConfirm, onCancel, onFlag }) => {
     const [inputText, setInputText] = useState('');
+    
     useEffect(() => { 
             alert("회원탈퇴시 작성한 게시물들은 모두 삭제됩니다.")
     }, []);
