@@ -1,7 +1,20 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
+import PasswordPopUp from "./PasswordPopUp";
+
 
 const MyPage = ({onLogout}) => {
+
+    const [popUpOpen, setPopUpOpen] = useState(false);
+
+    const handleOpenPopUp = () => {
+        setPopUpOpen(true);
+    };
+
+    const handleClosePopUp = () => {
+        setPopUpOpen(false);
+    };
+
     //로그아웃 처리 함수
     const navigate = useNavigate();
     const handleLogout = () => {
@@ -18,9 +31,18 @@ const MyPage = ({onLogout}) => {
         <div>
             <h2>마이페이지</h2>
             <div>
-                <button onClick={handleLogout}>로그아웃</button>
-                <Link to="/userProfile"
-                 className='flex items-center space-x-2 hover:text-blue-400'>회원정보</Link>
+                <button onClick={handleLogout}
+                className="bg-green-500 text-white px-4 py-2 mx-3 rounded-md hover:bg-green-600"
+                >로그아웃
+                </button>
+                <button
+                onClick={handleOpenPopUp}
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+            >
+                회원정보
+            </button>
+            {popUpOpen && <PasswordPopUp onClose={handleClosePopUp} />}
+            {/* 팝업이 켜져있을때 닫아야하니까 닫기 */}
             </div>
         </div>
     )

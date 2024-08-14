@@ -20,7 +20,7 @@ const SignupPage = () => {
     useEffect(() => {
         console.log("입력")
         setIDChecked(false)
-    },[idRef.current.value])
+    }, [idRef.current.value])
 
     const handleDuplicate = async (e) => {
         e.preventDefault(); // 새로고침 방지
@@ -38,8 +38,6 @@ const SignupPage = () => {
             url + "signup/checkid",
             {
                 method: "POST",
-
-
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -55,9 +53,9 @@ const SignupPage = () => {
                 setIDChecked(false)
             }
         })
-        .catch((error) => {
-            console.error('Error: ', error);
-        });
+            .catch((error) => {
+                console.error('Error: ', error);
+            });
     };
 
     const handleSignup = async (e) => {
@@ -68,7 +66,7 @@ const SignupPage = () => {
         if (password !== confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.")
             return;
-        } 
+        }
         if (!idChecked) {
             alert("ID 중복 체크를 해주세요.")
             return;
@@ -170,11 +168,11 @@ const SignupPage = () => {
                             회원가입
                         </button>
 
-                        <p className="mt-10 text-center text-sm text-gray-500">
-                            <a href="#" className="font-semibold leading-6 text-green-600 hover:text-green-500">
-                                <Link to="/login">이미 회원이신가요?</Link>
-                            </a>
-                        </p>
+                        {/* <p className="mt-10 text-center text-sm text-gray-500">
+                            <Link to="/login" className="font-semibold leading-6 text-green-600 hover:text-green-500">
+                                이미 회원이신가요?
+                            </Link>
+                        </p> */}
                     </form>
                 </div>
             </div>

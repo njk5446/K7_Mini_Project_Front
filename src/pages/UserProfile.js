@@ -1,26 +1,54 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import RemovePopUp from "./RemovePopUp";
 
 const url = process.env.REACT_APP_API_URL;
 
-const UserProfile = ({onLogout}) => {
+const UserProfile = ({ onLogout }) => {
 
     const [nickname, setNickname] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [newConfirmPassword, setNewConfirmPassword] = useState('');
-    const [randomNick, setRandomNick] = useState('');
+    const [removeConfirm, setRemoveConfirm] = useState(false);
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+
+            await fetch(url + "mypage/info", {
+                headers: {
+                    'Authorization': sessionStorage.getItem("token")
+                }
+            })
+                .then((resp) => {
+                    if (resp.status === 200) {
+                        return resp.json(); // 요청 성공하면 응답 데이터를 다음 then 체인의 data에 반환
+                    } else {
+                        return Promise.reject();
+                    }
+                })
+                .then((data) => {
+                    console.log(data);
+                    setNickname(data.nickname);
+                })
+                .catch((error) => {
+                    alert("정보를 불러오는데 실패했습니다.");
+                })
+        };
+        fetchUserInfo();
+    }, []); // 회원정보를 클릭하면 UserProfile이 마운트되고 처음 한번만 fetchUserInfo() 함수를 호출
 
 
     //로그아웃 처리 함수
-    const navigate = useNavigate();
+
     const handleLogout = () => {
         sessionStorage.removeItem("token"); // 세션에 현재 토큰만 저장되어있기 때문에 토큰만 제거하면됨
         onLogout();
         navigate("/"); // 로그아웃시 자동으로 홈화면으로 이동
     }
 
-    
+
 
     // 닉네임 변경 함수
     const handleNicknameChange = async (e) => {
@@ -34,9 +62,9 @@ const UserProfile = ({onLogout}) => {
         if (nickname.length > 16) {
             alert('닉네임 16자를 초과했습니다.')
             return;
-        } 
+        }
 
-        await fetch(url + "mypage/changenick", 
+        await fetch(url + "mypage/changenick",
             {
                 method: 'POST',
                 headers: {
@@ -48,17 +76,17 @@ const UserProfile = ({onLogout}) => {
                 }),
             }
         )
-        .then((resp) => {
-            if(resp.status === 200) {
-                alert('닉네임이 성공적으로 변경되었습니다.');
-                navigate('/mypage')
-            } else {
-                alert('닉네임 변경에 실패했습니다.')
-                return;
-            }
-        })
+            .then((resp) => {
+                if (resp.status === 200) {
+                    alert('닉네임이 성공적으로 변경되었습니다.');
+                    navigate('/mypage')
+                } else {
+                    alert('닉네임 변경에 실패했습니다.')
+                    return;
+                }
+            })
 
-        
+
     };
 
     // 비밀번호 변경 함수
@@ -66,18 +94,18 @@ const UserProfile = ({onLogout}) => {
         if (!newPassword && !newConfirmPassword) { //공백입력시 
             alert('새 비밀번호를 입력하세요.')
             return;
-        } 
+        }
 
         if (newPassword.length > 16) {
             alert('비밀번호 16자 이내로 입력하세요.')
             return;
         }
-        
-        else if (newPassword !== newConfirmPassword){
+
+        else if (newPassword !== newConfirmPassword) {
             alert('비밀번호를 확인해주세요.')
             return;
-        } 
-        
+        }
+
 
         await fetch(url + "mypage/changepw",
             {
@@ -91,13 +119,13 @@ const UserProfile = ({onLogout}) => {
                 })
             }
         ).then((resp) => {
-            if(resp.status === 200) {
+            if (resp.status === 200) {
                 alert('비밀번호가 성공적으로 변경되었습니다.')
             } else {
                 alert('비밀번호 변경에 실패했습니다.')
                 return;
             }
-        })        
+        })
     }
 
 
@@ -108,7 +136,7 @@ const UserProfile = ({onLogout}) => {
         // 함수내에서 await을 사용해서 비동기작업의 완료를 기다린다. fetch 요청에 성공하면 Promise는 Response를 반환하며 resp에 반환된 값이 저장됨
         // 비동기작업이 완료될때까지 코드를 일시 정지시키는 것
         return await resp.text(); // 텍스트로 변환될때까지 기다리고 반환
-        
+
     }
 
     // 랜덤 닉네임을 인풋박스에 넣는 함수
@@ -116,42 +144,79 @@ const UserProfile = ({onLogout}) => {
         const randomNick = await generateRandomNickname(); // 현재 randomNick에 mypage/randomnick의 text를 저장
         setNickname(randomNick); // 닉네임에 저장하면 nickName에 출력된다
     }
-    
+
+    const handleRemoveAccount = async () => {
+        await fetch(url + 'mypage/removeacc', {
+            method: 'GET',
+            headers: {
+                'Authorization': sessionStorage.getItem("token")
+                //세션저장소에서 token이라는 키로 저장된 값을 가져옴
+            }
+        })
+            .then((resp) => { // 서버 요청 성공 후 응답
+                alert("회원탈퇴시 작성했던 게시물은 모두 삭제됩니다.")
+                if (resp.status === 200) { // 서버 요청 성공 후 응답이 되면,
+                    alert('회원탈퇴가 완료되었습니다.');
+                    sessionStorage.removeItem("token"); // 현재 토큰 제거
+                    onLogout(); // 로그아웃 처리
+                    navigate('/');
+                } else {
+                    alert('회원탈퇴에 실패했습니다.');
+                }
+            });
+    };
+
 
     return (
         <div>
             <h2>회원정보</h2>
-
             <div className="form">
                 <label>닉네임</label>
-                <input
+                <input class="text-center"
                     type="text"
                     value={nickname}
                     onChange={(e) => setNickname(e.target.value)}
                     placeholder="새로운 닉네임 입력" />
-                <button onClick={handleNicknameChange}>변경</button>
-                <button type="button" color="green" onClick={handleRandomNickname}>랜덤 닉네임</button>
+                <button className="bg-indigo-600 text-white text-sm py-1 px-3 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 mr-1"
+                    type="button" onClick={handleRandomNickname}>랜덤 닉네임</button>
+                <button className="bg-green-500 text-white text-sm py-1 px-3 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 ml-1"
+                    onClick={handleNicknameChange}>변경</button>
+
             </div>
             <div className="form">
                 <label>새 비밀번호</label>
-                <input
+                <input class="text-center"
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="새 비밀번호" />
                 <br />
-                    <label>새 비밀번호 확인</label>
-                <input
+                <label>새 비밀번호 확인</label>
+                <input class="text-center"
                     type="password"
                     value={newConfirmPassword}
                     onChange={(e) => setNewConfirmPassword(e.target.value)}
                     placeholder="새 비밀번호 확인" />
-                <button onClick={handlePasswordChange}>변경</button>
+                <button className="bg-green-500 text-white text-sm py-1 px-3 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 ml-1"
+                    onClick={handlePasswordChange}>변경</button>
             </div>
-            
+
             <div>
-                <button onClick={handleLogout}>로그아웃</button>
+                <button className="bg-green-600 text-white text-sm py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 ml-1"
+                    onClick={handleLogout}>로그아웃</button>
             </div>
+            <button
+                className="bg-red-600 text-white text-sm py-1 px-3 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 ml-1"
+                onClick={() => setRemoveConfirm(true)}
+            >
+                회원탈퇴
+            </button>
+            {removeConfirm && (
+                <RemovePopUp
+                    onConfirm={handleRemoveAccount}
+                    onCancel={() => setRemoveConfirm(false)}
+                />
+            )}
         </div>
     )
 }

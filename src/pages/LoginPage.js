@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // React 라이브러리에서 React와 useState 훅을 가져오는 것
 // useState: const[변경할 변수, 변경할값] = useState("");
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 import Loading from "./Loading";
 
@@ -13,7 +13,7 @@ const LoginPage = ({onLogin}) => {
   const [loading, setLoading] = useState(false); // 로딩중 출력
 
   let token = "";
-  const navigate = useNavigate(); // useNavigate: 다른 경로(페이지) 이동 내장 객체
+
 
   if (loading) {
     return <Loading />; 
@@ -59,7 +59,7 @@ const LoginPage = ({onLogin}) => {
         onLogin();
         alert("로그인되었습니다.")
         
-        navigate("/"); // 로그인 성공시 홈으로 이동
+        // navigate("/"); // 로그인 성공시 홈으로 이동
       } else {
         alert("아이디 혹은 비밀번호가 틀렸습니다.");
       }
@@ -108,7 +108,7 @@ const LoginPage = ({onLogin}) => {
 
             <p className="mt-10 text-center text-sm text-gray-500">
               계정이 없으신가요?
-              <a href="#" className="font-semibold leading-6 text-green-600 hover:text-green-500"><Link to="/signup">회원가입</Link></a>
+              <Link className="font-semibold leading-6 text-green-600 hover:text-green-500" to="/signup">회원가입</Link>
             </p>
           </form>
         </div>

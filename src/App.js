@@ -9,21 +9,28 @@ import BoardDetail from './pages/BoardDetail';
 import BoardWrite from './pages/BoardWrite';
 import BoardEdit from './pages/BoardEdit';
 import MyPage from './pages/Mypage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaHome, FaSignInAlt, FaSignOutAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
 import UserProfile from './pages/UserProfile';
 
 function App() {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false); // 인증상태를 초기는 false로 선언
   const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 열림 닫힘여부, (초기상태는 닫힘(false))
+
+  // 해당 useEffect 훅이 없을때 새로고침을 하면 App 컴포넌트가 다시 마운트되면서 isAuthenticated는 초기값인 false로 바뀌니까 마이페이지를 클릭해도 (현재 마이페이지는 isAuthenticated=true일시에만 접근 가능하도록 설계) 로그인 페이지로 리다이렉트된다.
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if(token) {
+      setIsAuthenticated(true);
+    }
+  }, []) // 빈 리스트: 컴포넌트가 처음 마운트될때 한번만 해당 훅 실행
 
   // 로그인폼으로 로그인시, 호출
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
 
-  // 마이페이지에서 으로 로그아웃시, 호출
+  // 마이페이지에서 로그아웃시, 호출
   const handleLogout = () => {
     sessionStorage.removeItem("token");
     alert('로그아웃 되었습니다.');
@@ -111,26 +118,24 @@ function App() {
           <Routes>
             <Route path='/' element={<HomePage />} />
             <Route path='/login'
-              element={isAuthenticated ? (<Navigate to="/mypage" />) : (<LoginPage onLogin={handleLogin} />)} />
-            {/* 로그인으로 인증되면 true(Navigate훅을 통해 userProfile 컴포넌트로 접근), 
-            로그인 안했으면 false(LoginPage 컴포넌트로 접근)
+              element={isAuthenticated ? (<Navigate to="/" />) : (<LoginPage onLogin={handleLogin} />)} />
+            {/* 로그인으로 인증되면 isAuthenticated=true(Navigate훅을 통해 홈페이지 컴포넌트로 접근), 
+            로그인 안했으면 isAuthenticated=false(LoginPage 컴포넌트로 접근)
               */}
             {/* onLogin: 로그인폼에서 로그인 시도할때, handleLogin 함수가 호출되어 isAuthenticated=true. */}
             <Route path='/mypage'
               element={isAuthenticated ? (<MyPage onLogout={handleLogout} />) : (<Navigate to="/login" />)} />
-            {/* 로그인 인증된것인지(인증후 내비게이트로 이동되었을시, 직접 userProfile로 접근 시) 확인 후 
-                true(UserProfile의 로그아웃폼 처리) 
-                false(내비게이트 훅을 통해 로그인페이지로 리다이렉트)
-                onLogout: 로그아웃폼에서 로그아웃 시도할때, handleLogout 함수가 호출되어 isAuthenticated=false*/}
+            {/* MyPage 컴포넌트에서 isAuthenticated(인증여부)확인 후 
+                인증되어 true이면, MyPage의 로그아웃버튼을 누를때 handleLogount 함수가 호출되어 isAuthenticated=false
+                인증 안되어 false(내비게이트 훅을 통해 로그인페이지로 리다이렉트)*/}
             <Route path='/signup'
               element={<SignupPage />} />
             <Route path='/board' element={<BoardList />} />
             <Route path='/board/view' element={<BoardDetail />} />
             <Route path='/write' element={<BoardWrite />} />
             <Route path='/edit' element={<BoardEdit />} />
-            <Route path='/userProfile'
-              element={isAuthenticated ? (<UserProfile onLogout={handleLogout} />) : (<Navigate to='/userProfile' />)} />
-
+            <Route path='/mypage/userProfile'
+              element={<UserProfile onLogout={handleLogout} />} />
           </Routes>
         </main>
       </div>
