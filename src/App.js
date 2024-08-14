@@ -12,6 +12,7 @@ import MyPage from './pages/Mypage';
 import { useEffect, useState } from 'react';
 import { FaHome, FaSignInAlt, FaSignOutAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
 import UserProfile from './pages/UserProfile';
+import MyBoards from './pages/MyBoards';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false); // 인증상태를 초기는 false로 선언
@@ -136,6 +137,7 @@ function App() {
             <Route path='/edit' element={<BoardEdit />} />
             <Route path='/mypage/userProfile'
               element={<UserProfile onLogout={handleLogout} />} />
+            <Route path='/mypage/boardlist' element={<MyBoards />} />
           </Routes>
         </main>
       </div>

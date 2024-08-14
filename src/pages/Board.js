@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const url = process.env.REACT_APP_API_URL;
 
-const Board = ({ idx, title, content, create_Date, nickname, station_no }) => {
+const Board = ({ idx, title, content, create_Date, nickname }) => {
     const navigate = useNavigate();
 
     const params = new URLSearchParams(useLocation().search);
@@ -50,6 +50,7 @@ const Board = ({ idx, title, content, create_Date, nickname, station_no }) => {
 
 
 const delBoard = () => {
+    
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
         // window.confirm: 확인(true), 취소(false)
         axios.post(`${url}delete?sno=${sno}&idx=${idx}`, '', config)
@@ -63,10 +64,11 @@ const delBoard = () => {
                     alert('알 수 없는 오류가 발생했습니다.');
                 }
             })
+
     }
 }
 
-// 뒤로가기(게시판으로 이동)
+// 목록: 뒤로가기(게시판으로 이동)
 const moveToList = () => {
     navigate('/board');
 }

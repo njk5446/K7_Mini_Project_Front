@@ -154,7 +154,6 @@ const UserProfile = ({ onLogout }) => {
             }
         })
             .then((resp) => { // 서버 요청 성공 후 응답
-                alert("회원탈퇴시 작성했던 게시물은 모두 삭제됩니다.")
                 if (resp.status === 200) { // 서버 요청 성공 후 응답이 되면,
                     alert('회원탈퇴가 완료되었습니다.');
                     sessionStorage.removeItem("token"); // 현재 토큰 제거
@@ -206,7 +205,7 @@ const UserProfile = ({ onLogout }) => {
                     onClick={handleLogout}>로그아웃</button>
             </div>
             <button
-                className="bg-red-600 text-white text-sm py-1 px-3 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 ml-1"
+                className="bg-red-600 text-white text-sm py-1 px-3 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400 ml-1 my-1"
                 onClick={() => setRemoveConfirm(true)}
             >
                 회원탈퇴

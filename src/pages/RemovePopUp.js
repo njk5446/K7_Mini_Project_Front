@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // 회원탈퇴 버튼 클릭시 출력되는 회원탈퇴확인 팝업
-const RemovePopUp = ({ onConfirm, onCancel }) => {
+const RemovePopUp = ({ onConfirm, onCancel, onFlag }) => {
     const [inputText, setInputText] = useState('');
-
     useEffect(() => { 
-        const timer = setTimeout(() => {
             alert("회원탈퇴시 작성한 게시물들은 모두 삭제됩니다.")
-        }, 0)
-
-        return () => clearTimeout(timer);
     }, []);
 
     const handleRemoveConfirm = () => {
@@ -17,7 +13,7 @@ const RemovePopUp = ({ onConfirm, onCancel }) => {
             alert('회원탈퇴가 완료되었습니다.')
             onConfirm();
         } else {
-            alert('회원탈퇴를 정확히 입력하세요.');
+            alert('"회원탈퇴"를 정확히 입력하세요.');
         }
     };
 

@@ -61,7 +61,6 @@ const BoardList = () => {
         try {
             const resp = (await axios.get(`${url}board/search?searchType=${selectRef.current.value}&keyword=${keyword}`));
             setBoardList(resp.data.content) // resp에 가져온 데이터를 board 상태변수에 저장
-            console.log("검색된 결과 호출")
             
         } // axios를 통해 API를 호출하고 await으로 API 응답을 기다린다.     resp 응답변수에 data 속성을 저장한다
         catch (error) {
