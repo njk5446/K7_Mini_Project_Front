@@ -38,7 +38,7 @@ const MyBoards = () => {
 
     return (
         <div>
-            <h2 className="text-center text-2xl font-bold">내가 쓴 게시글</h2>
+            <h2 className="text-center text-5xl font-bold text-green-700 my-10">내가 쓴 게시글</h2>
             <ul>
                 {boards.length === 0 ? (
                     <p>작성한 게시글이 없습니다.</p>

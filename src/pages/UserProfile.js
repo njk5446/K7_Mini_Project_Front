@@ -4,7 +4,7 @@ import RemovePopUp from "./RemovePopUp";
 
 const url = process.env.REACT_APP_API_URL;
 
-const UserProfile = ({ onLogout }) => {
+const UserProfile = () => {
 
     const [nickname, setNickname] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -32,7 +32,7 @@ const UserProfile = ({ onLogout }) => {
                     console.log(data);
                     setNickname(data.nickname);
                 })
-                .catch((error) => {
+                .catch(() => {
                     alert("정보를 불러오는데 실패했습니다.");
                 })
         };
@@ -44,8 +44,9 @@ const UserProfile = ({ onLogout }) => {
 
     const handleLogout = () => {
         sessionStorage.removeItem("token"); // 세션에 현재 토큰만 저장되어있기 때문에 토큰만 제거하면됨
-        onLogout();
-        navigate("/"); // 로그아웃시 자동으로 홈화면으로 이동
+        alert("로그아웃 되었습니다.");
+        window.location.href = "/";  // "/"로 리디렉션하고 전체 새로고침
+        //navigate("/"); window.location.reload(); (방법2)
     }
 
 
@@ -78,10 +79,10 @@ const UserProfile = ({ onLogout }) => {
         )
             .then((resp) => {
                 if (resp.status === 200) {
-                    alert('닉네임이 성공적으로 변경되었습니다.');
+                    alert('닉네임 변경이 완료되었습니다.');
                     navigate('/mypage')
                 } else {
-                    alert('닉네임 변경에 실패했습니다.')
+                    alert('닉네임 변경이 실패했습니다. 다시 시도해 주세요.')
                     return;
                 }
             })
@@ -157,7 +158,6 @@ const UserProfile = ({ onLogout }) => {
                 if (resp.status === 200) { // 서버 요청 성공 후 응답이 되면,
                     alert('회원탈퇴가 완료되었습니다.');
                     sessionStorage.removeItem("token"); // 현재 토큰 제거
-                    onLogout(); // 로그아웃 처리
                     navigate('/');
                 } else {
                     alert('회원탈퇴에 실패했습니다.');
@@ -168,7 +168,7 @@ const UserProfile = ({ onLogout }) => {
 
     return (
         <div>
-            <h2>회원정보</h2>
+            <h2 className="text-center text-5xl font-bold text-green-700 my-10">회원정보</h2>
             <div className="form">
                 <label>닉네임</label>
                 <input class="text-center"

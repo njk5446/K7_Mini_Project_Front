@@ -7,11 +7,11 @@ import Loading from "./Loading";
 
 const url = process.env.REACT_APP_API_URL;
 
-const LoginPage = ({onLogin}) => {
+const LoginPage = () => {
   const [inputUserId, setInputUserId] = useState("");
   const [inputPassword, setInputPassword] = useState("");
   const [loading, setLoading] = useState(false); // 로딩중 출력
-
+  
   let token = "";
 
 
@@ -32,7 +32,7 @@ const LoginPage = ({onLogin}) => {
     setLoading(true)
     
     // 서버 요청의 응답
-    await fetch(
+    await fetch( 
       // fetch: 서버에 HTTP 요청을 보내는 함수
       // fetch 함수는 Promise를 반환하고 
       // await는 fetch 요청에서 Promise를 통해 성공적으로 반환하면 reponse 함수로 들어간다
@@ -56,10 +56,8 @@ const LoginPage = ({onLogin}) => {
         sessionStorage.setItem("token", token); // 토큰 저장 (세션 저장소에)
         // 토큰만 저장한 이유? 
         // sessionStorage에 필요한 최소한의 정보만 저장하는 것이 바람직하다. 토큰만 저장하면 데이터 관리 또한 간편해진다.
-        onLogin();
         alert("로그인되었습니다.")
-        
-        // navigate("/"); // 로그인 성공시 홈으로 이동
+        window.location.href = "/"; // 홈 페이지로 이동 및 페이지 새로 고침
       } else {
         alert("아이디 혹은 비밀번호가 틀렸습니다.");
       }

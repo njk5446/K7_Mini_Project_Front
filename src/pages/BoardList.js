@@ -15,6 +15,11 @@ const BoardList = () => {
 
     // 게시판 글쓰기 페이지로 이동
     const moveToWrite = () => {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+            alert("글쓰기는 로그인 후 사용하실 수 있습니다.")
+            return;
+        }
         navigate('/write');
     }
 
@@ -81,7 +86,7 @@ const BoardList = () => {
     return (
         <div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-green-600">게시판</h2>
+                <h2 className="text-center text-5xl font-bold text-green-700 my-10">게시판</h2>
             </div>
             <div>
                 <label>
@@ -92,7 +97,7 @@ const BoardList = () => {
                         <option value="nickname">닉네임</option>
                     </select>
                 </label>
-                <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 type="text" ref={inputRef}></input>
                 <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={searchBoard}>검색</button>
             </div>

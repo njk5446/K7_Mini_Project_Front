@@ -37,7 +37,7 @@ const PasswordPopUp = ({onClose}) => {
     };
 
     return ReactDOM.createPortal(
-        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 className="text-lg font-semibold mb-4">비밀번호 확인</h2>
                 <form onSubmit={handlePasswordSubmit}>

@@ -33,6 +33,11 @@ const BoardWrite = () => {
 
     // 글쓰기 저장 함수
     const saveBoard = async () => {
+        if (title.trim() === '' || content.trim() === '') {
+            alert('제목과 내용은 빈 칸일 수 없습니다.');
+            return;
+        }
+
         const config = { 
             headers: { 
               'Content-Type': 'application/json', // 요청 본문의 board 데이터를 json타입으로 지정
@@ -66,7 +71,7 @@ const BoardWrite = () => {
     return (
         <div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-green-600">글쓰기</h2>
+                <h2 className="text-center text-2xl font-bold text-green-700 my-5">글쓰기</h2>
             </div>
             <div>
                 <span>제목</span>

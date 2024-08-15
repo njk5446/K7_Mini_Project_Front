@@ -13,9 +13,12 @@ const Board = ({ idx, title, content, create_Date, nickname }) => {
     idx = parseInt(params.get('idx'), 10);
 
     // 해당 게시글의 수정페이지로 이동하는 함수
-    const moveToUpdate = async () => {
+    const handleUpdate = async () => {
         try {
-            const resp = await axios.post(`${url}checkUser?idx=${idx}`, '', config);
+            const resp = await axios.post(`${url}checkUser?idx=${idx}`, '',
+                {
+                    headers: { 'Authorization': sessionStorage.getItem("token")}
+                });
             if (resp.status === 200) {
                 navigate(`/edit?sno=${sno}&idx=${idx}`);
             }
@@ -27,15 +30,13 @@ const Board = ({ idx, title, content, create_Date, nickname }) => {
         }
     };
 
-    const config = {
-        headers: {
-            'Authorization': sessionStorage.getItem("token")
-        }
-    }
+
     //게시물 삭제 기능 함수
-    const deleteBoard = async () => {
+    const handleDelete = async () => {
         try {
-            const resp = await axios.post(`${url}checkUser?idx=${idx}`, '', config);
+            const resp = await axios.post(`${url}checkUser?idx=${idx}`, '',  {
+                headers: { 'Authorization': sessionStorage.getItem("token")}
+            });
             if (resp.status === 200) {
                 delBoard();
             }
@@ -53,7 +54,9 @@ const delBoard = () => {
     
     if (window.confirm('게시글을 삭제하시겠습니까?')) {
         // window.confirm: 확인(true), 취소(false)
-        axios.post(`${url}delete?sno=${sno}&idx=${idx}`, '', config)
+        axios.post(`${url}delete?sno=${sno}&idx=${idx}`, '',  {
+            headers: { 'Authorization': sessionStorage.getItem("token")}
+        })
             .then(resp => {
                 if (resp.status === 200) {
                     // (===): value, type 모두 동일한지
@@ -83,11 +86,11 @@ return (
             <p>content: {content}</p>
         </div>
         <div className="flex space-x-4">
-            <button button className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            <button className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                 onClick={moveToUpdate}>수정</button>
-            <button button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                 onClick={deleteBoard}>삭제</button>
-            <button button className="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+            <button className="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
                 onClick={moveToList}>목록</button>
 
         </div>

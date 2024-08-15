@@ -59,7 +59,7 @@ const BoardEdit = () => {
             navigate('/')
             return;
         }
-        else if (checkUser() == 0) {
+        else if (checkUser() === 0) {
             alert("해당 게시글을 수정할 권한이 없습니다.")
         }
     }
@@ -103,12 +103,12 @@ const BoardEdit = () => {
     // 컴포넌트 마운트 시 게시글 가져오기
     useEffect(() => {
         checkToken();
-    }, []); // 의존성 배열에 필요한 변수를 추가
+    }); // 의존성 배열에 필요한 변수를 추가
 
     return (
         <div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-green-600">게시물 수정</h2>
+                <h2 className="text-center text-5xl font-bold text-green-700 my-10">게시물 수정</h2>
             </div>
             <div>
                 <span>제목</span>

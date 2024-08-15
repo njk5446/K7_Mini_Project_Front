@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PasswordPopUp from "./PasswordPopUp";
 
 
-const MyPage = ({ onLogout }) => {
+const MyPage = () => {
 
     const [popUpOpen, setPopUpOpen] = useState(false);
     const navigate = useNavigate();
@@ -20,9 +20,9 @@ const MyPage = ({ onLogout }) => {
 
     const handleLogout = () => {
         sessionStorage.removeItem("token"); // 세션에 현재 토큰만 저장되어있기 때문에 토큰만 제거하면됨
-        onLogout();
-        navigate("/"); // 로그아웃시 자동으로 홈화면으로 이동
-        window.location.reload();
+        alert("로그아웃 되었습니다.");
+        window.location.href = "/";  // "/"로 리디렉션하고 전체 새로고침
+        //navigate("/"); window.location.reload(); (방법2)
     }
 
     const handleViewMyBoards = () => {
@@ -32,7 +32,7 @@ const MyPage = ({ onLogout }) => {
 
     return (
         <div>
-            <h2>마이페이지</h2>
+            <h2 className="text-center text-5xl font-bold text-green-700 my-10">마이페이지</h2>
             <div>
                 <button onClick={handleLogout}
                     className="bg-zinc-500 text-white px-4 py-2 mx-1 rounded-md hover:bg-green-400"
