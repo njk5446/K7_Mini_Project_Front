@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { FaHome, FaSignInAlt, FaSignOutAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
 import UserProfile from './pages/UserProfile';
 import MyBoards from './pages/MyBoards';
+import SubwayMap from './pages/SubwayMap';
 
 function App() {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 열림 닫힘여부, (초기상태는 닫힘(false))
@@ -72,9 +73,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className="flex flex-col w-full max-w-screen-lg h-screen mx-auto">
-      <header className='w-full flex justify-between items-center text-xl font-bold h-24 p-4 bg-green-400 fixed top-0 left-0 z-10'>
-
+      <div className="flex flex-col w-full mt-24 max-w-screen-xl h-screen mx-auto">
+      <header className='w-full flex justify-between items-center text-xl font-bold p-4 bg-green-400 fixed top-0 left-0 z-10'
+          style={{ height: '10vh' }}>
           <ul className='flex justify-center items-center text-sm'>
             <li className='mx-2 p-2 rounded-md
                          transition-colors hover:text-white'>
@@ -98,9 +99,9 @@ function App() {
             </li>
           </ul>
         </header>
-        <main className='grow w-full flex justify-center items-center overflow-y-auto '>
+        <main className='w-full flex justify-center items-center overflow-y-auto bg-white'> {/* Padding adjusted using viewport units */}
           <Routes>
-            <Route path='/' element={<HomePage />} />
+            <Route path='/' element={<SubwayMap />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/signup' element={<SignupPage />} />
