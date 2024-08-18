@@ -8,7 +8,7 @@ const HomePage = () => {
             width: '100%' // 부모 div의 너비를 100%로 설정
         }}>
             <img
-                src="http://192.168.0.126:8080/images/station.png"
+                src="/노선도.png"
                 alt="Station"
                 style={{
                     position: 'absolute', // 이미지 위치를 부모 div에 대해 절대적으로 설정
