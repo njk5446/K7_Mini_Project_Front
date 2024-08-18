@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -18,7 +19,6 @@ const SignupPage = () => {
     const navigate = useNavigate(); // 다른 경로로 이동할때 사용
 
     useEffect(() => {
-        console.log("입력")
         setIDChecked(false)
     }, [idRef.current.value])
 
@@ -34,28 +34,30 @@ const SignupPage = () => {
             return;
         }
 
-        await fetch(
-            url + "signup/checkid",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(checkIDPayload) // JSON 타입으로 변환해서 서버에 응답
-            }
-        ).then(resp => {
-            if (resp.status === 200) {
-                setUserId(idRef.current.value);
-                alert("사용 가능한 ID 입니다.");
-                setIDChecked(true)
-            } else {
-                alert("중복된 ID 입니다.");
-                setIDChecked(false)
-            }
-        })
-            .catch((error) => {
-                console.error('Error: ', error);
+        await axios.post(
+            `${url}signup/checkid`, checkIDPayload,{
+                headers: { "Content-Type": "application/json",}
+            })
+            .then(resp => {
+                if (resp.status === 200) {
+                    setUserId(idRef.current.value);
+                    alert("사용 가능한 ID 입니다.");
+                    setIDChecked(true)
+                }
+            })
+            .catch(error => {
+                // Axios 오류 처리
+                if (error.response && error.response.status === 409) {
+                    // 중복된 ID일 때
+                    alert("중복된 ID입니다.");
+                    setIDChecked(false);
+                } else {
+                    // 다른 오류 처리
+                    console.error('Error: ', error);
+                    alert('중복 확인 중 오류가 발생했습니다.');
+                }
             });
+                
     };
 
     const handleSignup = async (e) => {
@@ -78,21 +80,16 @@ const SignupPage = () => {
             nickname: userNickname
         };
         // 회원가입에 필요한 서버 통신 
-        await fetch(
-            url + "signup",
+        await axios.post(
+            `${url}signup`, payload,
             {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload)
+                headers: { "Content-Type": "application/json", },
             }
         )
-
             .then(resp => {
                 if (resp.status === 200) {
                     alert("회원가입이 완료되었습니다.")
-                    navigate("/login");
+                    navigate("/");
                 } else {
                     alert('회원가입 실패');
                 }
@@ -109,7 +106,10 @@ const SignupPage = () => {
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="userId" className="block text-sm font-medium leading-6 text-gray-900">아이디</label>
-                                <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" onClick={handleDuplicate}>중복 확인</button>
+                                <button type="button" 
+                                        className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" 
+                                        onClick={handleDuplicate}>중복 확인
+                                </button>
                             </div>
                             <div>
                                 <input input placeholder="아이디" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
@@ -165,7 +165,7 @@ const SignupPage = () => {
                         </div>
 
                         <button className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-                        id="signup-button" onClick={handleSignup}>
+                            id="signup-button" onClick={handleSignup}>
                             회원가입
                         </button>
 

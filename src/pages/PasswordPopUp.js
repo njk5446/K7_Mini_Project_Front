@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReactDOM from "react-dom"
+import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -16,14 +17,15 @@ const PasswordPopUp = ({onClose}) => {
             return;
         }
 
-        await fetch(url + "mypage/checkpw", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", // JSON 타입으로 정의
-                "Authorization": sessionStorage.getItem("token") // 현재 토큰을 넘기고 
-            },
-            body: JSON.stringify({password}), // 비밀번호를 JSON 타입으로 변환해서 서버에 요청
-        })
+        await axios.post(url + "mypage/checkpw", 
+            { password }, 
+            { headers: 
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": sessionStorage.getItem("token"),
+                }
+            }
+        )
         .then((resp) => { // 서버 요청에 성공 후 응답(resp)
             if (resp.status === 200) { // 응답 성공 시 
                 navigate("/mypage/userProfile"); // navigate를 통해 userProfile(회원정보) 컴포넌트로 이동

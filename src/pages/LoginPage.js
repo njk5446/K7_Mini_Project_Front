@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 import Loading from "./Loading";
+import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -19,34 +20,19 @@ const LoginPage = () => {
     return <Loading />; 
   }
   const handleLogin = async (event) => {
-    // 비동기: 코드가 실행되는 동안 다른 작업을 동시에 진행하는 방식
-    // async(이벤트 파라미터): 비동기작업 요청 시 handleLogin함수 호출  
-    event.preventDefault(); // 비동기작업요청(e).preventDefault: 비동기작업요청하면 새로고침을 막는다.
-    // await: 비동기 작업 요청의 응답을 기다리는 키워드
-    // Promise: 비동기 요청의 응답 성공 or 실패 반환
-    // r은 비동기 요청의 응답값
-    // setTimeout(비동기 요청의 응답값, 기다리는 시간)
-    // 1초 대기 후 비동기 요청의 응답을 반환
-
-    // 처리중입니다. 화면 서버응답되기전까지 출력
+    event.preventDefault(); 
     setLoading(true)
     
-    // 서버 요청의 응답
-    await fetch( 
-      // fetch: 서버에 HTTP 요청을 보내는 함수
-      // fetch 함수는 Promise를 반환하고 
-      // await는 fetch 요청에서 Promise를 통해 성공적으로 반환하면 reponse 함수로 들어간다
-      url + 'login', // 요청을 보낼 서버의 URL 
+    await axios.post(  //axios는 응답을 json으로 자동변환해줌
+      `${url}login`,
+      { // 서버로 보낼 데이터
+        userid: inputUserId, 
+        password: inputPassword,
+      },
       {
-        method: "POST", // 데이터를 서버에 제출하기 위해서 HTTP POST 메서드 사용
         headers: {
-          "Content-Type": "application/json", // 요청 본문을 json 타입임을 나타낸다
-        },
-        body: JSON.stringify({ 
-          userid: inputUserId, // 로그인폼에 현재 입력한 값(value)을 userid에 저장
-          password: inputPassword, // 로그인폼에 현재 입력한 값(value)을 password에 저장 
-        }),
-        // JSON.stringify를 통해 바디안에 정의한 userid과 password를 JSON 문자열로 변환
+          'Content-Type': 'application/json', // 요청 본문이 JSON 타입임을 명시
+        }
       }
     ).then(resp => {
 
