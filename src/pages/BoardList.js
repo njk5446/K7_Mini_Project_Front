@@ -26,7 +26,7 @@ const BoardList = () => {
     const [boardList, setBoardList] = useState([]); // 빈 리스트 생성
     const getBoardList = async () => {
         let sno = '96'
-        const resp = await (await axios.get(url + 'board?sno=' + sno)).data
+        const resp = await (await axios.get(url+"board?sno=" + sno)).data
         //axios.get: 
         // 해당 역번호(sno)의 게시판 데이터를 응답 변수에 할당
         setBoardList(resp.content)

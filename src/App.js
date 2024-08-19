@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import HomePage from './pages/HomePage';
 import BoardList from './pages/BoardList';
 import BoardDetail from './pages/BoardDetail';
 import BoardWrite from './pages/BoardWrite';
@@ -14,6 +13,8 @@ import { FaHome, FaSignInAlt, FaSignOutAlt, FaUser, FaUserCog, FaUserPlus } from
 import UserProfile from './pages/UserProfile';
 import MyBoards from './pages/MyBoards';
 import SubwayMap from './pages/SubwayMap';
+import DashBoard from './nivo/DashBoard';
+import Mapper from './ImageMap/Mapper';
 
 function App() {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 열림 닫힘여부, (초기상태는 닫힘(false))
@@ -101,7 +102,7 @@ function App() {
         </header>
         <main className='w-full flex justify-center items-center overflow-y-auto bg-white'> {/* Padding adjusted using viewport units */}
           <Routes>
-            <Route path='/' element={<SubwayMap />} />
+            <Route path='/' element={<DashBoard />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/signup' element={<SignupPage />} />
