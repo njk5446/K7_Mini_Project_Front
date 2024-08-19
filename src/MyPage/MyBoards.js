@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Loading from "./Loading";
+import Loading from "../Loading";
 import { Link } from "react-router-dom";
 const url = process.env.REACT_APP_API_URL;
-const sno = 96;
 
 const MyBoards = () => {
     const [boards, setBoards] = useState([]);
@@ -47,7 +46,7 @@ const MyBoards = () => {
                         <li key={board.idx} className="flex space-x-3 mb-2">
                             {board.idx}
                             <Link
-                                to={`/board/view?sno=${sno}&idx=${board.idx}`}
+                                to={`/board/view?idx=${board.idx}`}
                                 className="text-blue-500 hover:text-blue-700"
                             >
                             {board.title}

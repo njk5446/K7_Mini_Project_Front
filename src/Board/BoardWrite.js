@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { snoSel } from '../SnoAtom';
+import { useRecoilValue } from 'recoil';
 
 const url = process.env.REACT_APP_API_URL;
 
 // 게시판 글쓰기
 const BoardWrite = () => {
+
+    const sno = useRecoilValue(snoSel);
+
     const navigate = useNavigate();
 
     // board의 state를 빈 값으로 초기화
@@ -47,14 +52,13 @@ const BoardWrite = () => {
         // 
 
         // axios.post(요청을 보낼 서버 주소, 서버로 전송할 데이터)
-        let sno = 96; // 역번호는 임의로 넣음
         try {
             await axios.post(`${url}write?sno=${sno}`, JSON.stringify(board), config);
             // 글쓰기를 하려면 역번호, JSON 변환된 board 객체, token 값이 넘어가도록 axios.post 지정
 
             // 서버에 요청 성공하면 alert을 띄우고 페이지 이동
             alert('등록되었습니다.');
-            navigate('/board?sno='+ sno);
+            navigate(-1);
         } catch (error) {
             console.error('Error:', error);
             alert('등록에 실패하였습니다.');
@@ -65,7 +69,7 @@ const BoardWrite = () => {
 
     // 게시판 페이지로 뒤로가기 함수
     const backToList = () => {
-        navigate('/board');
+        navigate(-1);
     };
     
     return (

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 // useState: const[변경할 변수, 변경할값] = useState("");
 import { Link } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
-import Loading from "./Loading";
+import Loading from "../Loading";
 import axios from "axios";
 
 const url = process.env.REACT_APP_API_URL;

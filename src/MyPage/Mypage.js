@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PasswordPopUp from "./PasswordPopUp";
+import PasswordPopUp from "../Login/PasswordPopUp";
 
 
 const MyPage = () => {

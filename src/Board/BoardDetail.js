@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Loading from "./Loading";
+import Loading from "../Loading";
+
+import { snoSel } from '../SnoAtom';
+import { useRecoilValue } from 'recoil';
+
 const url = process.env.REACT_APP_API_URL;
 
 
 const BoardDetail = () => {
+    
+    const sno = useRecoilValue(snoSel);
     const navigate = useNavigate();
     const { search } = useLocation(); // 검색 url을 search 변수에 저장
     const params = new URLSearchParams(search); // URLSearchParams:search 변수에 들어있는 url 문자열의 파라미터들을 각각 인식해서 가지고 있는다. 이를 params에 저장
-    const sno = params.get('sno');
     const idx = params.get('idx');
 
 
@@ -18,7 +23,7 @@ const BoardDetail = () => {
 
     const getBoard = async () => { // 비동기함수 getBoard를 선언, 데이터를 비동기적으로 가져오기 위해 async로 선언
         try {
-            const resp = (await axios.get(`${url}board/view?sno=${sno}&idx=${idx}`));
+            const resp = (await axios.get(`${url}board/view?idx=${idx}`));
             setBoard(resp.data) // resp에 가져온 데이터를 board 상태변수에 저장
         } // axios를 통해 API를 호출하고 await으로 API 응답을 기다린다.     resp 응답변수에 data 속성을 저장한다
         catch (error) {
@@ -33,7 +38,7 @@ const BoardDetail = () => {
 
     useEffect(() => {
         getBoard();
-    }, [sno, idx])
+    }, [idx, sno])
 
     if (loading) {
         return <Loading />;
@@ -66,7 +71,7 @@ const BoardDetail = () => {
                 });
                 if (delResp.status === 200) {
                     alert('게시물이 삭제되었습니다.');
-                    navigate('/board');
+                    navigate(-1);
                 } else {
                     alert('알 수 없는 오류가 발생했습니다.');
                 }
@@ -79,7 +84,7 @@ const BoardDetail = () => {
     };
 
     const handleList = () => {
-        navigate('/board');
+        navigate(-1);
     }
 
 

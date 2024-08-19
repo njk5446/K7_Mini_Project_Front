@@ -1,23 +1,22 @@
-import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import './App.css';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import BoardList from './pages/BoardList';
-import BoardDetail from './pages/BoardDetail';
-import BoardWrite from './pages/BoardWrite';
-import BoardEdit from './pages/BoardEdit';
-import MyPage from './pages/Mypage';
 import { useState } from 'react';
 import { FaHome, FaSignInAlt, FaSignOutAlt, FaUser, FaUserCog, FaUserPlus } from "react-icons/fa";
-import UserProfile from './pages/UserProfile';
-import MyBoards from './pages/MyBoards';
-import SubwayMap from './pages/SubwayMap';
-import DashBoard from './nivo/DashBoard';
-import ZoomPanComponent from './ImageMap/Pan';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import { RecoilRoot } from 'recoil';
+import './App.css';
+import BoardDetail from './Board/BoardDetail';
+import BoardEdit from './Board/BoardEdit';
+import BoardList from './Board/BoardList';
+import BoardWrite from './Board/BoardWrite';
+import Pan from './ImageMap/Pan';
+import LoginPage from './Login/LoginPage';
+import SignupPage from './Login/SignupPage';
+import MyBoards from './MyPage/MyBoards';
+import MyPage from './MyPage/Mypage';
+import UserProfile from './MyPage/UserProfile';
 
 function App() {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 열림 닫힘여부, (초기상태는 닫힘(false))
+  
 
   // 로그인 인증된 사용자는 로그아웃, 마이페이지 아코디언이 보이고,
   // 로그인 인증되지않은 사용자는 로그인, 회원가입이 보인다
@@ -40,7 +39,7 @@ function App() {
           </li>
           <li>
             <Link
-              to="/mypage"
+              to="./mypage"
               className='flex items-center space-x-2 text-black hover:text-gray-400 transition-colors hover:bg-white'>
               <FaUserCog className='text-lg' />
               <span>마이페이지</span>
@@ -73,8 +72,9 @@ function App() {
   }
 
   return (
+    <RecoilRoot>
     <BrowserRouter>
-      <div className="flex flex-col w-full mt-24 max-w-screen-xl h-screen mx-auto">
+      <div className="flex flex-col w-full mt-32 max-w-screen-xl mx-auto">
       <header className='w-full flex justify-between items-center text-xl font-bold p-4 bg-green-400 fixed top-0 left-0 z-10'
           style={{ height: '10vh' }}>
           <ul className='flex justify-center items-center text-sm'>
@@ -94,15 +94,11 @@ function App() {
                 checkLogin()
               }
             </li>
-            <li className='mx-2 p-2 rounded-md
-                         transition-colors hover:bg-white hover:text-blue-600'>
-              <Link to='/board' state={{ refresh: true }} style={{ marginRight: '8px', fontSize: '25px', color: 'black',}}>게시판</Link>
-            </li>
           </ul>
         </header>
         <main className='w-full flex justify-center items-center bg-white'> {/* Padding adjusted using viewport units */}
           <Routes>
-            <Route path='/' element={<ZoomPanComponent />} />
+            <Route path='/' element={<Pan />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/signup' element={<SignupPage />} />
@@ -116,6 +112,7 @@ function App() {
         </main>
       </div>
     </BrowserRouter>
+    </RecoilRoot>
   );
 }
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom"; // useParams는 필요 없음
+import { snoSel } from '../SnoAtom';
+import { useRecoilValue } from 'recoil';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -13,7 +15,7 @@ const BoardEdit = () => {
 
     const params = new URLSearchParams(useLocation().search);
     const idxno = parseInt(params.get('idx'), 10); // 진수 10으로 변환
-    const sno = parseInt(params.get('sno'), 10);
+    const sno = useRecoilValue(snoSel);
 
     const { title, content } = board; // 초기화한데 게시물(board)을 title, content의 value에 저장한다.
 
@@ -26,14 +28,12 @@ const BoardEdit = () => {
         });
     };
 
-
     const config = {
         headers: {
             'Content-Type': 'application/json', // 요청 본문의 board 데이터를 json 타입으로 지정
             'Authorization': sessionStorage.getItem("token")
         }
     };
-
 
     const checkUser = async () => {
         try {
@@ -66,24 +66,25 @@ const BoardEdit = () => {
 
     const getBoard = async () => { // 비동기 함수 getBoard를 선언, 데이터를 비동기적으로 가져오기 위해 async로 선언
         try {
-            const resp = await axios.get(`${url}board/view?sno=${sno}&idx=${idxno}`);
+            const resp = await axios.get(`${url}board/view?idx=${idxno}`);
             setBoard(resp.data); // resp에 가져온 데이터를 board 상태변수에 저장
         } catch (error) {
             alert("게시판 자료를 가져오는데 실패했습니다.");
+            return;
         }
     };
 
     // 게시글 수정
     const editBoard = async () => {
 
-        // 백엔드에서 글쓰기 요청시 토큰값이 있어야 수정 허용하도록 설정
+        // 백엔드   에서 글쓰기 요청시 토큰값이 있어야 수정 허용하도록 설정
         try {
             const resp = await axios.post(`${url}edit?sno=${sno}&idx=${idxno}`, JSON.stringify(board), config);
             if (resp.status === 200) {
                 // (===): value, type 모두 동일한지
                 // (==): value만 동일한지 
                 alert('게시물이 수정되었습니다.');
-                navigate(`/board/view?sno=${sno}&idx=${idxno}`); // 수정: '=' 추가
+                navigate(-1); // 수정: '=' 추가
             }
         } catch (error) {
             if (error.response.status === 401) { // 수정: error.response로 변경
@@ -97,13 +98,13 @@ const BoardEdit = () => {
 
     // 취소 버튼 클릭 시
     const backToDetail = () => {
-        navigate(`/board/view?sno=${sno}&idx=${idxno}`);
+        navigate(-1);
     };
 
     // 컴포넌트 마운트 시 게시글 가져오기
     useEffect(() => {
         checkToken();
-    }); // 의존성 배열에 필요한 변수를 추가
+    },[]); // 의존성 배열에 필요한 변수를 추가
 
     return (
         <div>
