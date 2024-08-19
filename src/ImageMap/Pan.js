@@ -7,7 +7,7 @@ import Modal from '../pages/Modal';
 import { snoSel } from '../SnoAtom';
 import ImageMap from './Mapper';
 
-const Pan = () => {
+const ZoomPanComponent = () => {
   const [isModalOpen, setIsModalOpen] = useRecoilState(modalAtom);
   const [scale, setScale] = useState(0.6);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -202,4 +202,4 @@ const Pan = () => {
   );
 };
 
-export default Pan;
+export default ZoomPanComponent;

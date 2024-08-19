@@ -56,22 +56,11 @@ const LoginPage = () => {
 
 
     return (
-      <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
-        <div
-        aria-hidden="true"
-        className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
-        >   
-        <div
-          style={{
-            clipPath:
-              'polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)',
-          }}
-        />
+      <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-green-600">로그인</h2>
         </div>
-        <div className="mx-auto max-w-2xl text-center">
-        <h2 className="text-3xl font-bold tracking-tight text-gray-600 sm:text-4xl">로그인</h2>
-        </div>
-        <div className="mx-auto mt-1 max-w-2xl sm:mt-20 sm:w-full">
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form className="space-y-6" action="#" onSubmit={handleLogin}>
             <div>
               <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">아이디</label>
