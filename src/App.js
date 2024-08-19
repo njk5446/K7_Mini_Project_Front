@@ -14,7 +14,7 @@ import UserProfile from './pages/UserProfile';
 import MyBoards from './pages/MyBoards';
 import SubwayMap from './pages/SubwayMap';
 import DashBoard from './nivo/DashBoard';
-import Mapper from './ImageMap/Mapper';
+import ZoomPanComponent from './ImageMap/Pan';
 
 function App() {
   const [isAccordionOpen, setIsAccordionOpen] = useState(false); // 아코디언 열림 닫힘여부, (초기상태는 닫힘(false))
@@ -100,9 +100,9 @@ function App() {
             </li>
           </ul>
         </header>
-        <main className='w-full flex justify-center items-center overflow-y-auto bg-white'> {/* Padding adjusted using viewport units */}
+        <main className='w-full flex justify-center items-center bg-white'> {/* Padding adjusted using viewport units */}
           <Routes>
-            <Route path='/' element={<DashBoard />} />
+            <Route path='/' element={<ZoomPanComponent />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/signup' element={<SignupPage />} />
@@ -122,7 +122,3 @@ function App() {
 export default App;
 
 
-
-// const isAuthenticated = !!localStorage.getItem("token");
-// localStorage: 웹브라우저에 데이터 저장소, 페이지 새로고침해도 데이터가 사라지지않는다. (브라우저의 영구적인 메모리)
-// 명시적으로 삭제하지않는한 계속 유지된다 (DB와는 별개의 저장소이며 클라이언트가 간단한 데이터 저장 및 조회를 위해 사용한다)

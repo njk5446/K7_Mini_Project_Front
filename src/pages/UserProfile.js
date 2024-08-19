@@ -10,6 +10,7 @@ const UserProfile = () => {
     const [newPassword, setNewPassword] = useState('');
     const [newConfirmPassword, setNewConfirmPassword] = useState('');
     const [removeConfirm, setRemoveConfirm] = useState(false);
+    const [userNickname, setUserNickname] = useState("");
 
     const navigate = useNavigate();
 

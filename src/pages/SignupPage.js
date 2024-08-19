@@ -8,7 +8,7 @@ const SignupPage = () => {
     // useState로 값을 변화시킴
     const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
-    const [userNickname, setUserNickname] = useState("");
+    const [nickname, setNickname] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [idChecked, setIDChecked] = useState(false);
 
@@ -35,9 +35,9 @@ const SignupPage = () => {
         }
 
         await axios.post(
-            `${url}signup/checkid`, checkIDPayload,{
-                headers: { "Content-Type": "application/json",}
-            })
+            `${url}signup/checkid`, checkIDPayload, {
+            headers: { "Content-Type": "application/json", }
+        })
             .then(resp => {
                 if (resp.status === 200) {
                     setUserId(idRef.current.value);
@@ -57,8 +57,25 @@ const SignupPage = () => {
                     alert('중복 확인 중 오류가 발생했습니다.');
                 }
             });
-                
+
     };
+
+    // 랜덤 닉네임 생성 함수
+    const generateRandomNickname = async () => {
+        // async: 비동기 함수이며, 항상 Promise를 반환한다.
+        const resp = await fetch(url + "mypage/randomnick");
+        // 함수내에서 await을 사용해서 비동기작업의 완료를 기다린다. fetch 요청에 성공하면 Promise는 Response를 반환하며 resp에 반환된 값이 저장됨
+        // 비동기작업이 완료될때까지 코드를 일시 정지시키는 것
+        return await resp.text(); // 텍스트로 변환될때까지 기다리고 반환
+
+    }
+
+    // 랜덤 닉네임을 인풋박스에 넣는 함수
+    const handleRandomNickname = async () => {
+        const randomNick = await generateRandomNickname(); // 현재 randomNick에 mypage/randomnick의 text를 저장
+        setNickname(randomNick); // 닉네임에 저장하면 nickName에 출력된다
+    }
+
 
     const handleSignup = async (e) => {
         e.preventDefault(); // 새로고침 막기
@@ -77,7 +94,7 @@ const SignupPage = () => {
         const payload = { // 서버로 보내는 데이터 묶음
             userid: userId,
             password: password,
-            nickname: userNickname
+            nickname: nickname
         };
         // 회원가입에 필요한 서버 통신 
         await axios.post(
@@ -106,9 +123,9 @@ const SignupPage = () => {
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="userId" className="block text-sm font-medium leading-6 text-gray-900">아이디</label>
-                                <button type="button" 
-                                        className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" 
-                                        onClick={handleDuplicate}>중복 확인
+                                <button type="button"
+                                    className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                                    onClick={handleDuplicate}>중복 확인
                                 </button>
                             </div>
                             <div>
@@ -148,20 +165,21 @@ const SignupPage = () => {
                                 />
                             </div>
                         </div>
-
                         <div>
                             <div className="flex items-center justify-between">
                                 <label htmlFor="nickname" className="block text-sm font-medium leading-6 text-gray-900">닉네임</label>
                             </div>
                             <div>
-                                <input placeholder="6자 이내로 입력하세요" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
+                                <input placeholder="16자 이내로 입력하세요" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
                                     maxLength={MAX_LENGTH}
                                     type="text"
                                     id="nickname"
-                                    value={userNickname}
-                                    onChange={(e) => setUserNickname(e.target.value)}
+                                    value={nickname}
+                                    onChange={(e) => setNickname(e.target.value)}
                                 />
                             </div>
+                            <button className="bg-indigo-600 text-white text-sm my-2 py-1 px-3 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 mr-1"
+                                type="button" onClick={handleRandomNickname}>랜덤 닉네임</button>
                         </div>
 
                         <button className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"

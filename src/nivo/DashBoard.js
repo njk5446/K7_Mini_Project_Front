@@ -8,8 +8,6 @@ import HeatMapChart from './charts/Heat';
 import axios from 'axios'
 import SelectStation from './SelectStation';
 
-import Mapper from '../ImageMap/Mapper';
-
 export default function DashBoard() {
 
   // fetch된 데이터 저장
@@ -126,9 +124,6 @@ export default function DashBoard() {
       <div>
         {loadH2()}
         {loadChart()}
-      </div>
-      <div>
-      <Mapper />
       </div>
     </div>
   )
