@@ -160,10 +160,6 @@ const ZoomPanComponent = () => {
   }, [scale]);
 
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  }
-
   return (
     <>
       <Modal>
