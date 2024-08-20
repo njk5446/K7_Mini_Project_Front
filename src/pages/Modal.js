@@ -11,7 +11,7 @@ const Modal = ({ children }) => {
   return ReactDOM.createPortal(
     <div style={modalOverlayStyle}>
       <div className='w-4/5 h-4/5' style={modalContentStyle}>
-        <button onClick={() => setIsOpen(false)} style={closeButtonStyle}>Close</button>
+        <button onClick={() => setIsOpen(false)} style={closeButtonStyle}>닫기</button>
         {children}
       </div>
     </div>,

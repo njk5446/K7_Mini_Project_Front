@@ -7,7 +7,7 @@ import BoardDetail from './Board/BoardDetail';
 import BoardEdit from './Board/BoardEdit';
 import BoardList from './Board/BoardList';
 import BoardWrite from './Board/BoardWrite';
-import Pan from './ImageMap/Pan';
+import ZoomPanComponent from './ImageMap/Pan';
 import LoginPage from './Login/LoginPage';
 import SignupPage from './Login/SignupPage';
 import MyBoards from './MyPage/MyBoards';
@@ -98,7 +98,7 @@ function App() {
         </header>
         <main className='w-full flex justify-center items-center bg-white'> {/* Padding adjusted using viewport units */}
           <Routes>
-            <Route path='/' element={<Pan />} />
+            <Route path='/' element={<ZoomPanComponent />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/mypage' element={<MyPage />} />
             <Route path='/signup' element={<SignupPage />} />

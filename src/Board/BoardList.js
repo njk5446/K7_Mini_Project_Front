@@ -5,24 +5,23 @@ import Paging from "../paging/Paging";
 
 const url = process.env.REACT_APP_API_URL;
 
-const BoardList = ({ sno =  95 }) => {
+const BoardList = ({ sno }) => {
 
     const navigate = useNavigate();
     const location = useLocation();
     const [refresh, setRefresh] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1); // 처음 마운트시 첫번째 페이지를 현재 페이지로
-    const [totalItemsCount, setTotalItemsCount] = useState(0); 
-    const itemsCountPerPage = 10; // 한 페이지에 나올 게시물 개수
+    const [boardList, setBoardList] = useState([]); // 빈 리스트 생성
+    const [page, setPage] = useState({
+        size: 5,
+        number: 0,
+        totalElements: 0,
+        totalPages: 0,
+    })
 
 
-    
     const selectRef = useRef();
     const inputRef = useRef();
 
-    // 페이지네이션 함수
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    }
 
     // 게시판 글쓰기 페이지로 이동
     const moveToWrite = () => {
@@ -34,16 +33,21 @@ const BoardList = ({ sno =  95 }) => {
         navigate('/write');
     }
 
-    const [boardList, setBoardList] = useState([]); // 빈 리스트 생성
-    const getBoardList = async () => {
+
+    const getBoardList = async (pageNumber = 0) => {
         try{
-            const resp = await (await axios.get(`${url}board?sno=${sno}&page=${currentPage}`)).data
+            const resp = await (await axios.get(`${url}board?sno=${sno}&page=${pageNumber}`)).data
         //axios.get: 
         // 해당 역번호(sno)의 게시판 데이터를 응답 변수에 할당
-        setBoardList(resp.content)
-        setTotalItemsCount(resp.data.totalCount);
+        setBoardList(resp.content);
+        setPage({
+            size: resp.page.size,
+            number: resp.page.number,
+            totalElements: resp.page.totalElements,
+            totalPages: resp.page.totalPages,
+        });
         } catch (error) {
-            console.error("게시묾 목록을 가져오는데 실패했습니다.", error);
+            console.error("게시물 목록을 가져오는데 실패했습니다.", error);
         }
         
     }
@@ -51,7 +55,7 @@ const BoardList = ({ sno =  95 }) => {
     useEffect(() => {
         console.log("호출됨"+sno)
         getBoardList(); // 게시글 목록 조회 함수 호출
-    }, [sno, currentPage]); // sno 또는 currentPage가 변경될 때마다 호출
+    }, [sno]); // sno 또는 currentPage가 변경될 때마다 호출
 
     useEffect(() => {
         if (location.state?.refresh) {
@@ -82,7 +86,6 @@ const BoardList = ({ sno =  95 }) => {
         try {
             const resp = (await axios.get(`${url}board/search?searchType=${selectRef.current.value}&keyword=${keyword}`));
             setBoardList(resp.data.content) // resp에 가져온 데이터를 board 상태변수에 저장
-            setTotalItemsCount(resp.data.totalCount);
         } // axios를 통해 API를 호출하고 await으로 API 응답을 기다린다.     resp 응답변수에 data 속성을 저장한다
         catch (error) {
             alert("게시판 자료를 가져오는데 실패했습니다.")
@@ -92,6 +95,10 @@ const BoardList = ({ sno =  95 }) => {
                 return "검색된 내용이 없습니다"
             }
         }
+    }
+
+    const handlePageChange = (pageNumber) => {
+        getBoardList(pageNumber - 1); // 페이지 번호는 1부터 시작하므로, 0부터 시작하는 페이지 인덱스에 맞추기 위해 -1
     }
 
     return (
@@ -130,16 +137,16 @@ const BoardList = ({ sno =  95 }) => {
                         ))}
                     </ul>
                 )}
+                <Paging
+                    activePage={page.number + 1}
+                    itemsCountPerPage={page.size}
+                    totalItemsCount={page.totalElements}
+                    pageRangeDisplayed={5}
+                    onPageChange={handlePageChange}
+                />
                 <div>
                     <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={moveToWrite}>글쓰기</button>
                 </div>
-                <Paging
-                activePage={currentPage}
-                totalItemsCount={totalItemsCount}
-                itemsCountPerPage={itemsCountPerPage}
-                handlePageChange={handlePageChange}
-                />
-
             </div>
 
         </div>

@@ -4,11 +4,13 @@ import BarChart from './charts/Bar';
 import HeatMapChart from './charts/Heat';
 import LineChart from './charts/Line';
 import PieChart from './charts/Pie';
+import AQI from './AQI';
 
 import { useRecoilValue } from 'recoil';
 import { snoSel } from '../SnoAtom';
 
 import axios from 'axios';
+
 
 export default function DashBoard() {
 
@@ -120,6 +122,9 @@ export default function DashBoard() {
       <div>
         {loadH2()}
         {loadChart()}
+        <h4><br/>
+          <AQI sname = {stationName}/>
+        </h4>
       </div>
     </div>
   )
