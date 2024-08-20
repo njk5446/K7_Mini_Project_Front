@@ -1,15 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import BoardList from '../Board/BoardList';
-import { modalAtom } from '../ModalAtom';
 import DashBoard from '../nivo/DashBoard';
 import Modal from '../pages/Modal';
 import { snoSel } from '../SnoAtom';
 import ImageMap from './Mapper';
 
 const ZoomPanComponent = () => {
-  const [isModalOpen, setIsModalOpen] = useRecoilState(modalAtom);
-  const [scale, setScale] = useState(0.6);
+  const [sname, setSname] = useState('');
+  const [scale, setScale] = useState(0);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const containerRef = useRef(null);
   const isDraggingRef = useRef(false);
@@ -21,9 +20,9 @@ const ZoomPanComponent = () => {
 
   // 화면 크기에 따라 스케일값 변경
   const getScaleFromWidth = (width) => {
-    if (width >= 1920) return 0.6;
-    if (width >= 1000) return 0.5;
-    if (width >= 750) return 0.4;
+    if (width >= 1920) return 0.55;
+    if (width >= 1000) return 0.3;
+    if (width >= 750) return 0.2;
     if (width >= 500) return 0.2;
     return 0.15;
   };
@@ -163,30 +162,36 @@ const ZoomPanComponent = () => {
   return (
     <>
       <Modal>
-        <div className='flex gap-5 w-full h-full'>
-        <DashBoard />
-        <BoardList sno={useRecoilValue(snoSel)} />
+        <div className='flex-row xl:flex overflow-scroll w-full h-full' 
+        style={{  
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'}}>
+          <div className='w-full h-full xl:w-6/12'>
+            <DashBoard setSname={setSname}/>
+          </div>
+          <div className='flex w-full xl:w-6/12 justify-center mt-3'>
+            <BoardList sno={useRecoilValue(snoSel)} sname={sname}/>
+          </div>
         </div>
       </Modal>
-      <div
+      <div 
         ref={containerRef}
         onWheel={handleZoom}
         onMouseDown={handleMouseDown}
         style={{
           width: '100%',
-          height: '800px',
-          overflow: 'hidden',
+          height: '100%',
           border: '1px solid black',
-          position: 'relative',
+          position: 'fixed',
           cursor: 'grab',
         }}
       >
-        <div
+        <div        
           style={{
             transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
             transformOrigin: 'left top', // 'left top'으로 설정하여 줌 시 원점 고정
             width: '100%',
-            height: '50%',
+            height: '100%',
             position: 'absolute',
             transition: 'transform 0.25s ease-out', // 부드러운 줌 및 패닝 효과
           }}

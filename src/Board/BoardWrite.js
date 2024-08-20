@@ -17,12 +17,12 @@ const BoardWrite = () => {
     const [board, setBoard] = useState(
         {
             title: '',
-            content:'',
+            content: '',
         }
     );
 
     const { title, content } = board; // board의 props의 비어있는 값으로 초기화
-    
+
     // 글쓰기 폼의 입력값이 변경될때 실행
     const onChange = (e) => {
         const { name, value } = e.target;
@@ -43,10 +43,10 @@ const BoardWrite = () => {
             return;
         }
 
-        const config = { 
-            headers: { 
-              'Content-Type': 'application/json', // 요청 본문의 board 데이터를 json타입으로 지정
-              'Authorization': sessionStorage.getItem("token")
+        const config = {
+            headers: {
+                'Content-Type': 'application/json', // 요청 본문의 board 데이터를 json타입으로 지정
+                'Authorization': sessionStorage.getItem("token")
             }
         } // 백엔드에서 글쓰기 요청시 토큰값이 있어야 글쓰기 허용하도록 설정
         // 
@@ -71,36 +71,59 @@ const BoardWrite = () => {
     const backToList = () => {
         navigate(-1);
     };
-    
-    return (
-        <div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="text-center text-2xl font-bold text-green-700 my-5">글쓰기</h2>
-            </div>
-            <div>
-                <span>제목</span>
-                <input type="text" name="title" value={title} onChange={onChange} />
-            </div>
-            <br />
-            <div>
-                <span>내용</span>
-                <textarea
-                    name="content"
-                    cols="30"
-                    rows="10"
-                    value={content}
-                    onChange={onChange}
-                ></textarea>
-            </div>
-            <br />
-            <div>
-                <button className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" onClick={saveBoard}>저장</button>
-                <button className="flex w-full justify-center rounded-md bg-green-900 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" onClick={backToList}>취소</button>
-            </div>
 
+    return (
+        <div className="flex h-screen bg-white items-center justify-center overflow-hidden">
+            <div className="w-full max-w-2xl bg-white rounded p-5">
+                <header className="mb-5">
+                    <h2 className="text-3xl font-bold text-center text-gray-900">글쓰기</h2>
+                </header>
+                <form>
+                    <div className="mb-4">
+                        <label className="block mb-2 text-slate-700" htmlFor="title">제목</label>
+                        <input
+                            className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                            type="text"
+                            id="title"
+                            name="title"
+                            value={title}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block mb-2 text-slate-700" htmlFor="content">내용</label>
+                        <textarea
+                            className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                            id="content"
+                            name="content"
+                            cols="30"
+                            rows="10"
+                            value={content}
+                            onChange={onChange}
+                        ></textarea>
+                    </div>
+                    <div className="flex gap-4">
+                        <button
+                            className="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-3"
+                            type="button"
+                            onClick={saveBoard}
+                        >
+                            저장
+                        </button>
+                        <button
+                            className="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-3"
+                            type="button"
+                            onClick={backToList}
+                        >
+                            취소
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
+
     )
 
-    
+
 }
 export default BoardWrite;

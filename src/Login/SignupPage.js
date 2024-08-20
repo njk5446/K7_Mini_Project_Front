@@ -115,21 +115,23 @@ const SignupPage = () => {
     }
 
     return (
-        <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-            <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-green-600">회원가입</h2>
+        <div className="flex h-screen bg-white items-center justify-center overflow-hidden">
+            <div className="w-full max-w-2xl bg-white rounded p-5">
+                <header className="mb-5">
+                    <h2 className="text-3xl font-bold text-center text-gray-900">회원가입</h2>
+                </header>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" onSubmit={handleSignup}>
+                    <form action="#" onSubmit={handleSignup}>
                         <div>
                             <div className="flex items-center justify-between">
-                                <label htmlFor="userId" className="block text-sm font-medium leading-6 text-gray-900">아이디</label>
+                                <label htmlFor="userId" className="block text-slate-700">아이디</label>
                                 <button type="button"
-                                    className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                                    className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
                                     onClick={handleDuplicate}>중복 확인
                                 </button>
                             </div>
                             <div>
-                                <input input placeholder="아이디" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
+                                <input input placeholder="아이디" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1" required=""
                                     type="text"
                                     id="userId"
                                     value={userId}
@@ -140,10 +142,11 @@ const SignupPage = () => {
                         </div>
                         <div>
                             <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">비밀번호</label>
+                                <label htmlFor="password" className="block text-slate-700" >비밀번호</label>
                             </div>
                             <div>
-                                <input placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
+                                <input placeholder="••••••••" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                                    required=""
                                     type="password"
                                     id="password"
                                     value={password}
@@ -154,10 +157,10 @@ const SignupPage = () => {
 
                         <div>
                             <div className="flex items-center justify-between">
-                                <label htmlFor="confirm-password" className="block text-sm font-medium leading-6 text-gray-900">비밀번호 확인</label>
+                                <label htmlFor="confirm-password" className="block text-gray-900">비밀번호 확인</label>
                             </div>
                             <div>
-                                <input placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
+                                <input placeholder="••••••••" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1" required=""
                                     type="password"
                                     id="confirm-password"
                                     value={confirmPassword}
@@ -167,10 +170,10 @@ const SignupPage = () => {
                         </div>
                         <div>
                             <div className="flex items-center justify-between">
-                                <label htmlFor="nickname" className="block text-sm font-medium leading-6 text-gray-900">닉네임</label>
+                                <label htmlFor="nickname" className="block text-gray-900">닉네임</label>
                             </div>
                             <div>
-                                <input placeholder="16자 이내로 입력하세요" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
+                                <input placeholder="16자 이내로 입력하세요" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1" required=""
                                     maxLength={MAX_LENGTH}
                                     type="text"
                                     id="nickname"
@@ -178,14 +181,11 @@ const SignupPage = () => {
                                     onChange={(e) => setNickname(e.target.value)}
                                 />
                             </div>
-                            <button className="bg-indigo-600 text-white text-sm my-2 py-1 px-3 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-400 mr-1"
+                            <button className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
                                 type="button" onClick={handleRandomNickname}>랜덤 닉네임</button>
                         </div>
 
-                        <button className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-                            id="signup-button" onClick={handleSignup}>
-                            회원가입
-                        </button>
+
 
                         {/* <p className="mt-10 text-center text-sm text-gray-500">
                             <Link to="/login" className="font-semibold leading-6 text-green-600 hover:text-green-500">
@@ -193,6 +193,10 @@ const SignupPage = () => {
                             </Link>
                         </p> */}
                     </form>
+                    <button className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1 w-full"
+                        id="signup-button" onClick={handleSignup}>
+                        회원가입
+                    </button>
                 </div>
             </div>
         </div>

@@ -5,7 +5,7 @@ import Paging from "../paging/Paging";
 
 const url = process.env.REACT_APP_API_URL;
 
-const BoardList = ({ sno }) => {
+const BoardList = ({ sno, sname }) => {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -18,10 +18,8 @@ const BoardList = ({ sno }) => {
         totalPages: 0,
     })
 
-
     const selectRef = useRef();
     const inputRef = useRef();
-
 
     // 게시판 글쓰기 페이지로 이동
     const moveToWrite = () => {
@@ -35,25 +33,24 @@ const BoardList = ({ sno }) => {
 
 
     const getBoardList = async (pageNumber = 0) => {
-        try{
+        try {
             const resp = await (await axios.get(`${url}board?sno=${sno}&page=${pageNumber}`)).data
-        //axios.get: 
-        // 해당 역번호(sno)의 게시판 데이터를 응답 변수에 할당
-        setBoardList(resp.content);
-        setPage({
-            size: resp.page.size,
-            number: resp.page.number,
-            totalElements: resp.page.totalElements,
-            totalPages: resp.page.totalPages,
-        });
+            //axios.get: 
+            // 해당 역번호(sno)의 게시판 데이터를 응답 변수에 할당
+            setBoardList(resp.content);
+            setPage({
+                size: resp.page.size,
+                number: resp.page.number,
+                totalElements: resp.page.totalElements,
+                totalPages: resp.page.totalPages,
+            });
         } catch (error) {
             console.error("게시물 목록을 가져오는데 실패했습니다.", error);
         }
-        
     }
 
     useEffect(() => {
-        console.log("호출됨"+sno)
+        console.log("호출됨" + sno)
         getBoardList(); // 게시글 목록 조회 함수 호출
     }, [sno]); // sno 또는 currentPage가 변경될 때마다 호출
 
@@ -102,51 +99,68 @@ const BoardList = ({ sno }) => {
     }
 
     return (
-        <div className='flex flex-col w-3/6'>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="text-center text-5xl font-bold text-green-700 my-10">게시판</h2>
+        <div className='w-11/12'>
+            <div>
+                <h2 className="text-center text-4xl font-bold text-slate-700 mb-10">{sname}역 게시판</h2>
             </div>
             <div>
-                <label>
-                    <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" ref={selectRef}>
-                        {/* 셀렉트 박스의 값이 변경될때  handleSearchTypeChange 함수 호출*/}
-                        <option value="title">제목</option>
-                        <option value="content">내용</option>
-                        <option value="nickname">닉네임</option>
-                    </select>
-                </label>
-                <input className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
-                    type="text" ref={inputRef}></input>
-                <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={searchBoard}>검색</button>
-            </div>
-            <div>
+                <div className="flex justify-center items-center gap-3 mb-4">
+                    <label>
+                        <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-300 focus:border-blue-300 w-full p-2.5" ref={selectRef}>
+                            {/* 셀렉트 박스의 값이 변경될때  handleSearchTypeChange 함수 호출*/}
+                            <option value="title">제목</option>
+                            <option value="content">내용</option>
+                            <option value="nickname">닉네임</option>
+                        </select>
+                    </label>
+                    <input className="w-1/2 rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 placeholder:text-gray-500 focus:ring-2 focus:ring-inset focus:ring-slate-600 sm:text-sm sm:leading-6"
+                        type="text" ref={inputRef}></input>
+                    <button type="button" className="w-1/6 text-white bg-slate-700 hover:bg-slate-400 focus:ring-4
+                 rounded-md text-sm py-2.5 text-center" onClick={searchBoard}>검색</button>
+                </div>
                 {boardList.length === 0 ? (
                     <p>검색된 내용이 없습니다.</p>
                 ) : (
-                    <ul>
-                        {boardList && boardList.map((board) => (
-                            <li className="flex space-x-3" key={board.idx}>
-                                <li className="text-green-400">{board.idx}</li>
-                                <Link className="text-blue-500 hover:text-blue-700 visited:text-purple-600"
-                                    to={`/board/view?sno=${board.station_no}&idx=${board.idx}`}>
-                                    {board.title}
-                                </Link>
-                                <li>{board.nickname}</li>
-                                <li>{board.create_Date.replace('T', '/').slice(0, 16)}</li>
-                            </li>
-                        ))}
-                    </ul>
+                    <div>
+                        <table className="w-full">
+                            <thead>
+                                <tr className="bg-gray-100 flex text-center items-center">
+                                    <th className="w-2/12 py-2">글 번호</th>
+                                    <th className="w-5/12">제목</th>
+                                    <th className="w-3/12">닉네임</th>
+                                    <th className="w-2/12">작성일</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {boardList && boardList.map((board) => (
+                                    <tr className="flex text-center odd:bg-white even:bg-gray-50 border-b py-1.5" key={board.idx}>
+                                        <td className="font-medium text-gray-900 whitespace-nowrap w-2/12">{board.idx}</td>
+                                        <td className="text-blue-500 hover:text-blue-700 visited:text-purple-600 w-5/12">
+                                        <Link to={`/board/view?sno=${board.station_no}&idx=${board.idx}`}> {board.title}
+                                        </Link>
+                                        </td>
+                                        <td className="w-3/12">{board.nickname}</td>
+                                        <td className="w-2/12">{board.create_Date.replace('T', ' ').slice(0, 10)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
-                <Paging
-                    activePage={page.number + 1}
-                    itemsCountPerPage={page.size}
-                    totalItemsCount={page.totalElements}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageChange}
-                />
-                <div>
-                    <button type="button" class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" onClick={moveToWrite}>글쓰기</button>
+                <div className="w-full flex justify-center mt-3">
+                    <Paging
+                        activePage={page.number + 1}
+                        itemsCountPerPage={page.size}
+                        totalItemsCount={page.totalElements}
+                        pageRangeDisplayed={5}
+                        onPageChange={handlePageChange}
+                    />
                 </div>
+                <div className="flex justify-end ">
+                    <button type="button" className="text-white bg-slate-700 hover:bg-slate-400 focus:outline-none focus:ring-4 font-medium rounded-md
+                    text-sm px-4 py-2.5 text-center mb-5" onClick={moveToWrite}>글쓰기</button>
+                </div>
+
             </div>
 
         </div>

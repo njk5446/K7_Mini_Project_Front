@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { useRef, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
-import { modalAtom } from '../ModalAtom'; // Recoil 상태 관리 파일을 임포트
+import { loginModalAtom } from '../LoginModalAtom'; // Recoil 상태 관리 파일을 임포트
 
-const Modal = ({ children }) => {
-  const [isOpen, setIsOpen] = useRecoilState(modalAtom);
+const LoginModal = ({ children }) => {
+  const [isOpen, setIsOpen] = useRecoilState(loginModalAtom);
   const modalRef = useRef();
 
   const handleClickOutside = (event) => {
@@ -43,4 +43,4 @@ const modalContentStyle = {
   position: 'relative',
 };
 
-export default Modal;
+export default LoginModal;
