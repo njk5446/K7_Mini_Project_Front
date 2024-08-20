@@ -3,6 +3,7 @@ import ImageMapper from 'react-img-mapper';
 import { useRecoilState } from 'recoil';
 import { snoAtom } from '../SnoAtom';
 import { modalAtom } from '../ModalAtom';
+const url = process.env.REACT_APP_API_URL
 
 const ImageMap = () => {
 
@@ -139,7 +140,7 @@ const ImageMap = () => {
 
     return (
         <ImageMapper
-            src='http://192.168.0.126:8080/images/station.png'
+            src={url + 'images/station.png'}
             map={map}
             width={3136} // Adjust based on your image size
             onClick={handleAreaClick}

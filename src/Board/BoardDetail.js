@@ -10,7 +10,7 @@ const url = process.env.REACT_APP_API_URL;
 
 
 const BoardDetail = () => {
-    
+
     const sno = useRecoilValue(snoSel);
     const navigate = useNavigate();
     const { search } = useLocation(); // 검색 url을 search 변수에 저장
@@ -90,38 +90,61 @@ const BoardDetail = () => {
 
 
     return (
-        <div>
-            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="text-center text-5xl font-bold text-green-700 my-10">게시물 상세</h2>
+<div className="flex h-screen bg-white items-center justify-center overflow-hidden">
+    <div className="w-full max-w-2xl bg-white rounded p-5">
+        <header className="mb-5">
+            <h2 className="text-3xl font-bold text-center text-gray-900">게시물 상세</h2>
+        </header>
+        <form>
+            <div className="post-container mb-6 border rounded-lg shadow-lg overflow-y-auto max-h-[calc(100vh-14rem)]">
+                <div className="flex flex-wrap items-start text-xl mb-2">
+                    <span className="mr-2 font-semibold">제목:</span>
+                    <h2 className="text-xl">{board.title}</h2>
+                </div>
+
+                <div className="flex flex-wrap items-center text-xl mb-2">
+                    <span className="mr-2 font-semibold">닉네임:</span>
+                    <span>{board.nickname}</span>
+                </div>
+                
+                <div className="flex flex-wrap items-center text-xl mb-2">
+                    <span className="mr-2 font-semibold">날짜:</span>
+                    <span>{board.create_Date.replace('T', '/').slice(0, 16)}</span>
+                </div>
+
+                <div className="flex flex-wrap items-center text-xl mb-2">
+                    <span className="mr-2 font-semibold">내용:</span>
+                    <span>{board.content}</span>
+                </div>
             </div>
-            <div>
-                <p>idx: {board.idx}</p>
-                <p>title: {board.title}</p>
-                <p>nickname: {board.nickname}</p>
-                <p>create_Date: {board.create_Date.replace('T', '/').slice(0, 16)}</p>
-                <p>content: {board.content}</p>
-            </div>
-            <div className="flex space-x-4">
+
+            <div className="flex gap-4">
                 <button
-                    className="flex w-full justify-center rounded-md bg-green-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                    className="w-full bg-slate-700 hover:bg-slate-400 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-3"
+                    type="button"
                     onClick={handleUpdate}
                 >
                     수정
                 </button>
                 <button
-                    className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                    className="w-full bg-slate-700 hover:bg-slate-400 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-3"
+                    type="button"
                     onClick={handleDelete}
                 >
                     삭제
                 </button>
                 <button
-                    className="flex w-full justify-center rounded-md bg-green-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                    className="w-full bg-slate-700 hover:bg-slate-400 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-3"
+                    type="button"
                     onClick={handleList}
                 >
                     목록
                 </button>
             </div>
-        </div>
+        </form>
+    </div>
+</div>
+
     );
 };
 

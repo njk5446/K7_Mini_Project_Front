@@ -52,17 +52,19 @@ const PasswordPopUp = ({onClose}) => {
                     />
                     <button
                         type="submit"
-                        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+                        className="bg-slate-700 text-white px-4 py-2 rounded-md hover:bg-slate-400"
                     >
                         확인
                     </button>
-                </form>
-                <button
+                    <button
                     onClick={onClose} // 닫기버튼 누르면 부모컴포넌트에서 선언해둔 onClose 함수 호출
-                    className="mt-4 bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
+                    className="mx-3 mt-4 bg-slate-500 text-white px-4 py-2 rounded-md hover:bg-slate-300"
+                    type="button"
                 >
                     닫기
                 </button>
+                </form>
+                
             </div>
         </div>,
         document.body
