@@ -5,12 +5,12 @@ import { useRecoilState } from 'recoil';
 import { modalAtom } from '../ModalAtom'; // Recoil 상태 관리 파일을 임포트
 
 const Modal = ({ children }) => {
-  const [isOpen, setIsOpen] = useRecoilState(modalAtom);
+  const [modalState, setmodalState] = useRecoilState(modalAtom);
   const modalRef = useRef();
 
   const handleClickOutside = (event) => {
     if (modalRef.current && !modalRef.current.contains(event.target)) {
-      setIsOpen(false); // 모달 닫기
+      setmodalState({...modalState, isOpen: false}); // 모달 닫기
     }
   };
 
@@ -24,7 +24,7 @@ const Modal = ({ children }) => {
     };
   }, []);
 
-  if (!isOpen) return null;
+  if (!modalState.isOpen) return null;
 
   return ReactDOM.createPortal(
     <div className='pl-10 sm:pl-20 w-full h-full bg-black bg-opacity-50 fixed flex justify-center items-center'>

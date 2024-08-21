@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { loginModalAtom } from "../LoginModalAtom";
+import { useRecoilState } from "recoil";
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -11,12 +12,11 @@ const SignupPage = () => {
     const [nickname, setNickname] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [idChecked, setIDChecked] = useState(false);
+    const [modalState, setModalState] = useRecoilState(loginModalAtom);
 
     const idRef = useRef("");
 
     const MAX_LENGTH = 16;
-
-    const navigate = useNavigate(); // 다른 경로로 이동할때 사용
 
     useEffect(() => {
         setIDChecked(false)
@@ -106,7 +106,7 @@ const SignupPage = () => {
             .then(resp => {
                 if (resp.status === 200) {
                     alert("회원가입이 완료되었습니다.")
-                    navigate("/");
+                    setModalState({ ...modalState, content:'login' })
                 } else {
                     alert('회원가입 실패');
                 }
@@ -115,89 +115,83 @@ const SignupPage = () => {
     }
 
     return (
-        <div className="flex h-screen bg-white items-center justify-center overflow-hidden">
-            <div className="w-full max-w-2xl bg-white rounded p-5">
-                <header className="mb-5">
-                    <h2 className="text-3xl font-bold text-center text-gray-900">회원가입</h2>
-                </header>
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form action="#" onSubmit={handleSignup}>
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="userId" className="block text-slate-700">아이디</label>
-                                <button type="button"
-                                    className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
-                                    onClick={handleDuplicate}>중복 확인
-                                </button>
-                            </div>
-                            <div>
-                                <input input placeholder="아이디" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1" required=""
-                                    type="text"
-                                    id="userId"
-                                    value={userId}
-                                    ref={idRef}
-                                    onChange={(e) => setUserId(e.target.value)} //입력 필드의 값이 변경될때 바디 안의 함수를 호출한다(실시간으로 감지하고 처리)
-                                />
-                            </div>
+        <div className="bg-white w-full h-full p-5">
+            <div className="flex justify-center">
+                <h2 className="text-3xl font-bold text-slate-700 sm:text-4xl">회원가입</h2>
+            </div>
+            <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                <form className="mx-auto mt-16 max-w-xl sm:mt-20" action="#" onSubmit={handleSignup}>
+                    <div>
+                        <div className="flex items-center justify-between">
+                            <label htmlFor="userId" className="text-sm font-semibold leading-6 text-slate-700">아이디</label>
+                            <button type="button"
+                                className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 ml-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset"
+                                onClick={handleDuplicate}>중복 확인
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <input placeholder="아이디" className="w-full rounded-md border-2 px-2 py-1.5 text-slate-700 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                            required=""
+                            type="text"
+                            id="userId"
+                            value={userId}
+                            ref={idRef}
+                            onChange={(e) => setUserId(e.target.value)} //입력 필드의 값이 변경될때 바디 안의 함수를 호출한다(실시간으로 감지하고 처리)
+                        />
+                    </div>
+                    <div>
+                        <div className="flex items-center justify-between">
+                            <label htmlFor="password" className="text-sm font-semibold leading-6 text-slate-700" >비밀번호</label>
                         </div>
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="password" className="block text-slate-700" >비밀번호</label>
-                            </div>
-                            <div>
-                                <input placeholder="••••••••" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
-                                    required=""
-                                    type="password"
-                                    id="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </div>
+                            <input placeholder="••••••••" className="w-full rounded-md border-2 px-2 py-1.5 text-slate-700 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                                required=""
+                                type="password"
+                                id="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
                         </div>
-
-                        <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="confirm-password" className="block text-gray-900">비밀번호 확인</label>
-                            </div>
-                            <div>
-                                <input placeholder="••••••••" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1" required=""
-                                    type="password"
-                                    id="confirm-password"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)} // e는 입력된 값인데 e.target.value로 현재 입력된 값을 뽑아와 useState를 통해 현재의 confirmPassword에 값을 변경한다
-                                />
-                            </div>
+                    </div>
+                    <div>
+                        <div className="flex items-center justify-between">
+                            <label className="text-sm font-semibold leading-6 text-slate-700">비밀번호 확인</label>
                         </div>
                         <div>
-                            <div className="flex items-center justify-between">
-                                <label htmlFor="nickname" className="block text-gray-900">닉네임</label>
-                            </div>
-                            <div>
-                                <input placeholder="16자 이내로 입력하세요" className="w-full rounded-md border-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1" required=""
-                                    maxLength={MAX_LENGTH}
-                                    type="text"
-                                    id="nickname"
-                                    value={nickname}
-                                    onChange={(e) => setNickname(e.target.value)}
-                                />
-                            </div>
-                            <button className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
-                                type="button" onClick={handleRandomNickname}>랜덤 닉네임</button>
+                            <input placeholder="••••••••" className="w-full rounded-md border-2 px-2 py-1.5 text-slate-700 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                                required=""
+                                type="password"
+                                id="confirm-password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)} // e는 입력된 값인데 e.target.value로 현재 입력된 값을 뽑아와 useState를 통해 현재의 confirmPassword에 값을 변경한다
+                            />
                         </div>
+                    </div>
+                    <div>
+                        <div className="flex items-center justify-between">
+                            <label htmlFor="nickname" className="text-sm font-semibold leading-6 text-slate-700">닉네임</label>
+                        </div>
+                        <div>
+                            <input placeholder="16자 이내로 입력하세요" className="w-full rounded-md border-2 px-2 py-1.5 text-slate-700 shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1"
+                                required=""
+                                maxLength={MAX_LENGTH}
+                                type="text"
+                                id="nickname"
+                                value={nickname}
+                                onChange={(e) => setNickname(e.target.value)}
+                            />
+                        </div>
+                        <button className="w-full bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset 
+            ring-gray-400 focus:ring-2 focus:ring-inset my-3"
 
-
-
-                        {/* <p className="mt-10 text-center text-sm text-gray-500">
-                            <Link to="/login" className="font-semibold leading-6 text-green-600 hover:text-green-500">
-                                이미 회원이신가요?
-                            </Link>
-                        </p> */}
-                    </form>
+                            type="button" onClick={handleRandomNickname}>랜덤 닉네임</button>
+                    </div>
                     <button className="bg-slate-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-1 w-full"
                         id="signup-button" onClick={handleSignup}>
                         회원가입
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     );

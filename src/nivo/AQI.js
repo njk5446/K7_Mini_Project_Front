@@ -10,10 +10,10 @@ export default function AQI({ sname }) {
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
-    const hour = '0' + (today.getHours() - 1);
+    const hour = today.getHours();
     const yyyymmddhr = parseInt(`${year}${month}${day}${hour}`);
 
-  
+
     let url = `https://apis.data.go.kr/6260000/IndoorAirQuality/getIndoorAirQualityByStation`
     url += `?serviceKey=${process.env.REACT_APP_API_KEY}&pageNo=1`
     url += `&numOfRows=10000&resultType=json&controlnumber=${yyyymmddhr}`
@@ -45,8 +45,13 @@ export default function AQI({ sname }) {
         <div>
             {aqiData && (
                 <>
-                    <p>미세먼지 : {aqiData.pm10}</p>
-                    <p>초미세먼지 : {aqiData.pm25}</p>
+                    <div className='flex gap-3 text-start sm:text-xl md:text-xl font-bold text-slate-700 my-5 justify-center items-center'>
+                        <div>{month}월 {day}일 {hour}시 기준</div>
+                        <div>
+                            <div>미세먼지(PM10) : {aqiData.pm10}</div>
+                            <div>초미세먼지(PM2.5) : {aqiData.pm25}</div>
+                        </div>
+                    </div>
                 </>
             )}
         </div>

@@ -45,9 +45,9 @@ export default function DashBoard({ setSname }) {
   const loadH2 = () => {
     if (fetchedData) {
       if (chartType === "pie") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역 월별 탑승객</h2>;
-      else if (chartType === "bar") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br/> {month}월 탑승객</h2>;
-      else if (chartType === "line") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br/> {month}월 {day1}일 ~ {day2}일 탑승객</h2>;
-      else if (chartType === "heatmap") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br/> {date.slice(6).replace("-", "월 ")}일 시간대별 탑승객</h2>;
+      else if (chartType === "bar") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br /> {month}월 탑승객</h2>;
+      else if (chartType === "line") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br /> {month}월 {day1}일 ~ {day2}일 탑승객</h2>;
+      else if (chartType === "heatmap") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br /> {date.slice(6).replace("-", "월 ")}일 시간대별 탑승객</h2>;
     }
   }
 
@@ -58,9 +58,9 @@ export default function DashBoard({ setSname }) {
     }
     if (fetchedData) {
       if (chartType === "pie") return <PieChart data={fetchedData} onClick={handlePieClick} />;
-      else if (chartType === "bar") return <BarChart data={fetchedData} onClick={handleBarClick}/>;
-      else if (chartType === "line") return <LineChart data={fetchedData} onClick={handleLineClick}/>;
-      else if (chartType === "heatmap") return <HeatMapChart data={fetchedData} onClick={handleHeatmapClick}/>;
+      else if (chartType === "bar") return <BarChart data={fetchedData} onClick={handleBarClick} />;
+      else if (chartType === "line") return <LineChart data={fetchedData} onClick={handleLineClick} />;
+      else if (chartType === "heatmap") return <HeatMapChart data={fetchedData} onClick={handleHeatmapClick} />;
     }
   }
 
@@ -124,9 +124,7 @@ export default function DashBoard({ setSname }) {
       <div>
         {loadH2()}
         {loadChart()}
-        <h4>
-          <AQI sname={stationName} />
-        </h4>
+        <AQI sname={stationName} />
       </div>
     </div>
   )

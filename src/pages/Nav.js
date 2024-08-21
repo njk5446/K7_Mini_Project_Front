@@ -4,19 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { loginModalAtom } from '../LoginModalAtom';
 import LoginModal from './LoginModal';
-import LoginPage from '../Login/LoginPage';
 
 export default function Nav() {
     const navigate = useNavigate();
-    const [isModalOpen, setIsModalOpen] = useRecoilState(loginModalAtom);
+    const [modalState, setModalState] = useRecoilState(loginModalAtom);
 
     const checkLogin = () => {
         if (sessionStorage.getItem("token") != null) {
             // 토큰값이 null이 아니면(로그인된 상태)
-            navigate("/mypage")
+            setModalState({ ...modalState, isOpen: true, content: "mypage" })
+        }else if (modalState.isOpen) {
+            setModalState({ ...modalState, isOpen: false})
         }
         else {
-            setIsModalOpen(true)
+            setModalState({ ...modalState, isOpen: true, content: "login" })
         }
     }
     return (
@@ -27,16 +28,13 @@ export default function Nav() {
                 className='text-4xl space-x-2 transition-colors hover:text-white'>
                 <FaHome />
             </button>
-
             <button
                 onClick={() => checkLogin()}
                 className='text-3xl space-x-2 transition-colors hover:text-white'>
                 <FaUser />
             </button>
+            <LoginModal/>
         </header >
-        <LoginModal>
-            <LoginPage />
-        </LoginModal>
         </>
     )
 }

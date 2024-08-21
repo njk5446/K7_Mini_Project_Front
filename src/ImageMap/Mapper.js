@@ -3,12 +3,11 @@ import ImageMapper from 'react-img-mapper';
 import { useRecoilState } from 'recoil';
 import { snoAtom } from '../SnoAtom';
 import { modalAtom } from '../ModalAtom';
-const url = process.env.REACT_APP_API_URL
 
 const ImageMap = () => {
 
     const [sno, setSno] = useRecoilState(snoAtom);
-    const [modal, setModal] = useRecoilState(modalAtom);
+    const [modalState, setModalState] = useRecoilState(modalAtom);
     const map = {
         name: 'station-map', areas: [
             // 1호선
@@ -130,23 +129,24 @@ const ImageMap = () => {
     };
     const handleAreaClick = (area) => {
         setSno(area.alt)
-        setModal(true);
+        setModalState({...modalState, isOpen:true});
     };
 
     const handleAreaTouch = (area) => {
         setSno(area.alt)
-        setModal(true);
+        setModalState({...modalState, isOpen:true});
     };
+
+    const url = process.env.REACT_APP_API_URL;
 
     return (
         <ImageMapper
-            src={url + 'images/station.png'}
+            src={`${url}images/station.png`}
             map={map}
             width={3136} // Adjust based on your image size
             onClick={handleAreaClick}
             onTouchEnd={handleAreaTouch}
         />
-        
     );
 };
 

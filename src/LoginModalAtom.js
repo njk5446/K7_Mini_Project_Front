@@ -1,13 +1,10 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 export const loginModalAtom = atom({
-    key: 'loginModalAtom',
-    default: false,
-  });
-
-export const LoginModalSel = selector({
-  key: 'LoginModalSel', // unique ID (with respect to other atoms/selectors)
-  get: ({get}) => {
-    return get(loginModalAtom);
-  },
+  key: 'loginModalAtom',
+  default: {
+    isOpen: false, // 모달이 열려 있는지 여부
+    content: 'login', // 모달의 내용 ('login' 또는 'signup')
+    duplicate: false  // 모달 중첩 여부 (true, false)
+  }
 });

@@ -2,7 +2,6 @@ import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import './App.css';
 import BoardDetail from './Board/BoardDetail';
-import BoardEdit from './Board/BoardEdit';
 import BoardList from './Board/BoardList';
 import BoardWrite from './Board/BoardWrite';
 import ZoomPanComponent from './ImageMap/Pan';
@@ -33,7 +32,6 @@ function App() {
               <Route path='/board' element={<BoardList />} />
               <Route path='/board/view' element={<BoardDetail />} />
               <Route path='/write' element={<BoardWrite />} />
-              <Route path='/edit' element={<BoardEdit />} />
               <Route path='/mypage/userProfile' element={<UserProfile />} />
               <Route path='/mypage/boardlist' element={<MyBoards />} />
               <Route path="/checkToken" element={<CheckToken />} />

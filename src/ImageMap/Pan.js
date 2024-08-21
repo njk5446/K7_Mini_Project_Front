@@ -20,11 +20,16 @@ const ZoomPanComponent = () => {
 
   // 화면 크기에 따라 스케일값 변경
   const getScaleFromWidth = (width) => {
-    if (width >= 1920) return 0.55;
-    if (width >= 1000) return 0.3;
-    if (width >= 750) return 0.2;
-    if (width >= 500) return 0.2;
-    return 0.15;
+    const minWidth = 300;
+    const maxWidth = 1900;
+    const minScale = 0.15;
+    const maxScale = 0.55;
+
+    if (width < minWidth) return minScale;
+    if (width > maxWidth) return maxScale;
+
+    const scale = 0.00025 * width + 0.075;
+    return scale;
   };
 
   // 스크린 사이즈 변경 시 스케일 값 업데이트
@@ -162,31 +167,31 @@ const ZoomPanComponent = () => {
   return (
     <>
       <Modal>
-        <div className='flex-row xl:flex overflow-scroll w-full h-full' 
-        style={{  
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none'}}>
+        <div className='flex-row xl:flex overflow-scroll w-full h-full'
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}>
           <div className='w-full h-full xl:w-6/12'>
-            <DashBoard setSname={setSname}/>
+            <DashBoard setSname={setSname} />
           </div>
           <div className='flex w-full xl:w-6/12 justify-center mt-3'>
-            <BoardList sno={useRecoilValue(snoSel)} sname={sname}/>
+            <BoardList sno={useRecoilValue(snoSel)} sname={sname} />
           </div>
         </div>
       </Modal>
-      <div 
+      <div
         ref={containerRef}
         onWheel={handleZoom}
         onMouseDown={handleMouseDown}
         style={{
           width: '100%',
           height: '100%',
-          border: '1px solid black',
           position: 'fixed',
           cursor: 'grab',
         }}
       >
-        <div        
+        <div
           style={{
             transform: `scale(${scale}) translate(${position.x}px, ${position.y}px)`,
             transformOrigin: 'left top', // 'left top'으로 설정하여 줌 시 원점 고정
