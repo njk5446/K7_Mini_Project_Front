@@ -40,7 +40,7 @@ const LoginModal = () => {
     }
   };
 
-  const modalStyle = modalState.content === 'mypage' ? myPageModalStyle : defaultModalStyle;
+  const modalStyle = modalState.content === 'mypage' ? myPageModalStyle : 'signup' ? signUpModalStyle : defaultModalStyle;
 
   return ReactDOM.createPortal(
     <div className='pl-10 sm:pl-20 w-full h-full bg-black bg-opacity-50 fixed flex justify-center items-center'>
@@ -53,7 +53,7 @@ const LoginModal = () => {
 };
 
 const defaultModalStyle = 'h-auto shadow-lg'
-  
+const signUpModalStyle = 'w-2/5 p-5 h-auto shadow-lg'
 const myPageModalStyle = 'w-4/5 h-4/5 flex'
 
 const modalContentStyle = {

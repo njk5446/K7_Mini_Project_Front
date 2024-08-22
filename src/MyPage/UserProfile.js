@@ -37,16 +37,6 @@ const UserProfile = () => {
     }, []); // 회원정보를 클릭하면 UserProfile이 마운트되고 처음 한번만 fetchUserInfo() 함수를 호출
 
 
-    //로그아웃 처리 함수
-
-    const handleLogout = () => {
-        sessionStorage.removeItem("token"); // 세션에 현재 토큰만 저장되어있기 때문에 토큰만 제거하면됨
-        alert("로그아웃 되었습니다.");
-        window.location.href = "/";  // "/"로 리디렉션하고 전체 새로고침
-    }
-
-
-
     // 닉네임 변경 함수
     const handleNicknameChange = async (e) => {
         e.preventDefault();
@@ -94,6 +84,9 @@ const UserProfile = () => {
 
         if (newPassword.length > 16) {
             alert('비밀번호 16자 이내로 입력하세요.')
+            return;
+        } else if (newPassword.length < 6) {
+            alert('비밀번호를 6자 이상 입력하세요.')
             return;
         }
 
@@ -152,12 +145,13 @@ const UserProfile = () => {
             .then((resp) => { // 서버 요청 성공 후 응답
                 if (resp.status === 200) { // 서버 요청 성공 후 응답이 되면,
                     alert('회원탈퇴가 완료되었습니다.');
-                    sessionStorage.removeItem("token"); // 현재 토큰 제거
+                    
                     window.location.href = "/";
-                } else {
-                    alert('회원탈퇴에 실패했습니다.');
-                }
-            });
+                } 
+            })
+            .finally(() => {
+                sessionStorage.removeItem("token"); // 현재 토큰 제거
+            })
     };
 
 
@@ -205,7 +199,7 @@ const UserProfile = () => {
                         </button>
                         <button className="bg-slate-700 hover:bg-slate-400 text-white font-bold py-2 px-5 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset w-full"
                             type="button"
-                            onClick={handlePasswordChange}>회원정보 변경</button>
+                            onClick={handlePasswordChange}>비밀번호 변경</button>
                     </div>
 
                     {removeConfirm && (

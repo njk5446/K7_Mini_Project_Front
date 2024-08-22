@@ -60,8 +60,8 @@ const BoardWrite = ({ onSave, backToList, editing, idx, myboard }) => {
 
     const checkToken = () => {
         if (sessionStorage.getItem("token") == null) {
-            alert("잘못된 접근입니다.")
-            navigate('/')
+            window.location.href ="/";
+            alert("로그인 후 이용 가능합니다.")
             return;
         }
         else if (checkUser() === 0) {
@@ -85,7 +85,7 @@ const BoardWrite = ({ onSave, backToList, editing, idx, myboard }) => {
     // 게시글 수정
     const editBoard = async () => {
         try {
-            const resp = await axios.post(`${url}edit?sno=${sno}&idx=${idx}`, JSON.stringify(board), config);
+            const resp = await axios.post(`${url}edit?idx=${idx}`, JSON.stringify(board), config);
             if (resp.status === 200) {
                 alert('게시물이 수정되었습니다.');
                 backToList()
@@ -125,7 +125,7 @@ const BoardWrite = ({ onSave, backToList, editing, idx, myboard }) => {
         <div className="flex h-full bg-white items-center justify-center overflow-hidden">
             <div className="w-full bg-white rounded px-5">
                 <header>
-                    {myboard ? <></> : <h2 className="text-4xl font-bold text-center text-slate-700">글쓰기</h2>}
+                    {myboard ? <></> : <h2 className="text-4xl font-bold text-center text-slate-700"> {editing ? "게시물 수정" : "게시물 등록"}</h2>}
                 </header>
                 <form>
                     <div className="mb-4">
@@ -157,7 +157,7 @@ const BoardWrite = ({ onSave, backToList, editing, idx, myboard }) => {
                             type="button"
                             onClick={editing ? editBoard : saveBoard}
                         >
-                            저장
+                            {editing ? "수정" : "저장"}
                         </button>
                         <button
                         className="w-full bg-slate-700 hover:bg-slate-400 text-white font-bold py-2 px-4 mb-6 rounded shadow-sm ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-inset my-3"    

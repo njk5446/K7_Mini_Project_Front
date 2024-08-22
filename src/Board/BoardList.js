@@ -154,7 +154,7 @@ const BoardList = ({ sno, sname }) => {
                                             <th className="w-2/12 py-2">글 번호</th>
                                             <th className="w-5/12">제목</th>
                                             <th className="w-3/12">닉네임</th>
-                                            <th className="w-2/12">작성일</th>
+                                            <th className="w-2/12">등록일</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -184,7 +184,7 @@ const BoardList = ({ sno, sname }) => {
                     </div>
                     <div className="flex justify-end">
                         <button type="button" className="text-white bg-slate-700 hover:bg-slate-400 focus:outline-none focus:ring-4 font-medium rounded-md text-sm px-4 py-2.5 text-center mb-5"
-                            onClick={handleWriteClick}>글쓰기</button>
+                            onClick={handleWriteClick}>게시물 등록</button>
                     </div>
                 </div>
             )}

@@ -10,7 +10,7 @@ export default function AQI({ sname }) {
     const year = today.getFullYear();
     const month = (today.getMonth() + 1).toString().padStart(2, '0');
     const day = today.getDate().toString().padStart(2, '0');
-    const hour = today.getHours();
+    const hour = (today.getHours()-1).toString().padStart(2,'0');
     const yyyymmddhr = parseInt(`${year}${month}${day}${hour}`);
 
 

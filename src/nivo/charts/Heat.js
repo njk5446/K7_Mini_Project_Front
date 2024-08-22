@@ -47,7 +47,7 @@ const HeatMapChart = ({ data, onClick, onStyle }) => {
         onClick={onClick}
         colors={{
           type: 'sequential',
-          scheme: 'greens',
+          scheme: 'blues',
           divergeAt: 0.5,
           minValue: 0,
           maxValue: max

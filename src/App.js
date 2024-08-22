@@ -12,9 +12,27 @@ import MyPage from './MyPage/Mypage';
 import UserProfile from './MyPage/UserProfile';
 import CheckToken from './Login/CheckToken';
 import Nav from './pages/Nav';
+import { useEffect, useState } from 'react';
+import LoadingOverlay from './Loading/LoadingOverlay';
+
 
 function App() {
-  
+  const [loading,setLoading] = useState(false);
+  useEffect(() => {
+    const initialLoad = sessionStorage.getItem('appLoaded');
+    if (initialLoad) {
+      setLoading(false);
+    } else {
+      setLoading(true)
+      const fetchData = async () => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setLoading(false);
+        sessionStorage.setItem('appLoaded', 'true');
+      };
+      fetchData();
+    }
+  }, []);
+
   return (
     <RecoilRoot>
       <BrowserRouter>
@@ -22,6 +40,7 @@ function App() {
           <div>
           <Nav />
           </div>
+          <LoadingOverlay isVisible={loading} />
           <div className='w-full h-full ml-20'>
           <main>
             <Routes>
@@ -45,5 +64,3 @@ function App() {
 }
 
 export default App;
-
-

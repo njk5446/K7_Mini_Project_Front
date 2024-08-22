@@ -44,7 +44,7 @@ export default function DashBoard({ setSname }) {
   // h2 태그 출력용 함수
   const loadH2 = () => {
     if (fetchedData) {
-      if (chartType === "pie") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역 월별 탑승객</h2>;
+      if (chartType === "pie") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역 기간별 탑승객</h2>;
       else if (chartType === "bar") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br /> {month}월 탑승객</h2>;
       else if (chartType === "line") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br /> {month}월 {day1}일 ~ {day2}일 탑승객</h2>;
       else if (chartType === "heatmap") return <h2 className="text-center sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-700 my-3">{stationName}역<br /> {date.slice(6).replace("-", "월 ")}일 시간대별 탑승객</h2>;

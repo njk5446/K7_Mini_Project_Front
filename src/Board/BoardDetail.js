@@ -49,7 +49,7 @@ const BoardDetail = ({ board, onBack, sno, idx, myboard }) => {
                 headers: { 'Authorization': sessionStorage.getItem("token") }
             });
             if (resp.status === 200 && window.confirm('게시글을 삭제하시겠습니까?')) {
-                const delResp = await axios.post(`${url}delete?sno=${sno}&idx=${idx}`, '', {
+                const delResp = await axios.post(`${url}delete?idx=${idx}`, '', {
                     headers: { 'Authorization': sessionStorage.getItem("token") }
                 });
                 if (delResp.status === 200) {

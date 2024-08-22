@@ -1,3 +1,4 @@
+//signup
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { loginModalAtom } from "../LoginModalAtom";
@@ -17,6 +18,8 @@ const SignupPage = () => {
     const idRef = useRef("");
 
     const MAX_LENGTH = 16;
+
+    
 
     useEffect(() => {
         setIDChecked(false)
@@ -80,6 +83,23 @@ const SignupPage = () => {
     const handleSignup = async (e) => {
         e.preventDefault(); // 새로고침 막기
 
+        if (!userId.trim()) {
+            alert("아이디를 입력하세요.");
+            return;
+        }
+        if (!password.trim()) {
+            alert("비밀번호를 입력하세요.");
+            return;
+        }
+        if (!confirmPassword.trim()) {
+            alert("비밀번호 확인을 입력하세요.");
+            return;
+        }
+        if (!nickname.trim()) {
+            alert("닉네임을 입력하세요.");
+            return;
+        }
+
         // 회원가입 처리 로직 구현
 
         if (password !== confirmPassword) {
@@ -88,6 +108,22 @@ const SignupPage = () => {
         }
         if (!idChecked) {
             alert("ID 중복 체크를 해주세요.")
+            return;
+        }
+
+        if (password.length > 16) {
+            alert("비밀번호를 16자 이내로 입력해주세요.");
+            return;
+        } else if (password.length < 6) {
+            alert("비밀번호를 6자 이상 입력해주세요.")
+            return;
+        }
+
+        if (confirmPassword.length > 16) {
+            alert("비밀번호를 16자 이내로 입력해주세요.");
+            return;
+        } else if (confirmPassword.length < 6) {
+            alert("비밀번호를 6자 이상 입력해주세요.")
             return;
         }
 
@@ -115,12 +151,12 @@ const SignupPage = () => {
     }
 
     return (
-        <div className="bg-white w-full h-full p-5">
+        <div className="bg-white w-full h-full py-3">
             <div className="flex justify-center">
                 <h2 className="text-3xl font-bold text-slate-700 sm:text-4xl">회원가입</h2>
             </div>
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="mx-auto mt-16 max-w-xl sm:mt-20" action="#" onSubmit={handleSignup}>
+                <form className="mt-10" action="#" onSubmit={handleSignup}>
                     <div>
                         <div className="flex items-center justify-between">
                             <label htmlFor="userId" className="text-sm font-semibold leading-6 text-slate-700">아이디</label>

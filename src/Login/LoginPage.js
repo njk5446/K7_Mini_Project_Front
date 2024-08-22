@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 // React 라이브러리에서 React와 useState 훅을 가져오는 것
 // useState: const[변경할 변수, 변경할값] = useState("");
-import { useNavigate } from "react-router-dom";
 //react-router-dom 라이브러리에서 Link, useNavigate 가져오는 것
 import Loading from "../Loading";
 import axios from "axios";
@@ -63,7 +62,9 @@ const LoginPage = () => {
       alert("아이디 혹은 비밀번호가 틀렸습니다.");
     })
       .finally(() => {
+        console.log(token);
         setLoading(false) // 처리중 메시지 
+        console.log(token);
       })
   }
 
