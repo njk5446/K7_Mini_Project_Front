@@ -144,8 +144,6 @@ const UserProfile = () => {
         })
             .then((resp) => { // 서버 요청 성공 후 응답
                 if (resp.status === 200) { // 서버 요청 성공 후 응답이 되면,
-                    alert('회원탈퇴가 완료되었습니다.');
-                    
                     window.location.href = "/";
                 } 
             })

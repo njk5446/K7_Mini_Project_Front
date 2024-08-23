@@ -47,7 +47,7 @@ const BoardList = ({ sno, sname }) => {
             return;
         }
         try {
-            const resp = await axios.get(`${url}board/search?searchType=${selectRef.current.value}&keyword=${keyword}`);
+            const resp = await axios.get(`${url}board/search?searchType=${selectRef.current.value}&keyword=${keyword}&sno=${sno}`);
             const results = resp.data.content;
             setBoardList(results);
             setPage({

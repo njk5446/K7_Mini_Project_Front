@@ -12,7 +12,7 @@ const HeatMapChart = ({ data, onClick, onStyle }) => {
           .filter(key => key.startsWith('hour_'))
           .map(key => item[key])
       )
-    ) + 50;
+    ) + 500;
 
     keylist = data.flatMap(item =>
       Object.keys(item)

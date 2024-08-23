@@ -42,6 +42,11 @@ const BoardWrite = ({ onSave, backToList, editing, idx, myboard }) => {
     };
 
     const checkUser = async () => {
+        if (sessionStorage.getItem("token") == null) {
+            window.location.href ="/";
+            alert("로그인 후 이용 가능합니다.")
+            return;
+        }
         try {
             const resp = await axios.post(`${url}checkUser?idx=${idx}`, '', config);
             if (resp.status === 200) {
@@ -59,12 +64,7 @@ const BoardWrite = ({ onSave, backToList, editing, idx, myboard }) => {
     }
 
     const checkToken = () => {
-        if (sessionStorage.getItem("token") == null) {
-            window.location.href ="/";
-            alert("로그인 후 이용 가능합니다.")
-            return;
-        }
-        else if (checkUser() === 0) {
+        if (checkUser() === 0) {
             alert("해당 게시글을 수정할 권한이 없습니다.")
         }
     }
