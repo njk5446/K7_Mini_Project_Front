@@ -22,7 +22,7 @@ export default function Nav() {
     }
     return (
     <>
-        <header className='w-10 sm:w-20 bg-slate-300 fixed z-10 h-full flex flex-col items-center justify-between py-60'>
+        <header className='w-10 sm:w-20 bg-slate-300 fixed z-10 h-full flex flex-col items-center justify-evenly'>
             <button
                 onClick={() => navigate('/')}
                 className='text-4xl space-x-2 transition-colors hover:text-white'>
@@ -30,7 +30,7 @@ export default function Nav() {
             </button>
             <button
                 onClick={() => checkLogin()}
-                className='text-3xl space-x-2 transition-colors hover:text-white'>
+                className='text-3xl space-x-2 transition-colors hover:text-white py-20 lg:py-40'>
                 <FaUser />
             </button>
             <LoginModal/>
