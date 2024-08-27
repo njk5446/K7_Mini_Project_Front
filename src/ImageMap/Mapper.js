@@ -141,7 +141,8 @@ const ImageMap = () => {
 
     return (
         <ImageMapper
-            src={`${url}images/station.png`}
+            // src={`${url}images/station.png`}
+            src='/busan_station.png'
             map={map}
             width={3136} // Adjust based on your image size
             onClick={handleAreaClick}
