@@ -39,7 +39,7 @@ const LoginPage = () => {
     await axios.post(  //axios는 응답을 json으로 자동변환해줌
       `${url}login`,
       { // 서버로 보낼 데이터
-        userid: inputUserId,
+        userId: inputUserId,
         password: inputPassword,
       },
       {
