@@ -39,7 +39,7 @@ const LoginPage = () => {
     await axios.post(  //axios는 응답을 json으로 자동변환해줌
       `${url}login`,
       { // 서버로 보낼 데이터
-        userid: inputUserId,
+        userId: inputUserId,
         password: inputPassword,
       },
       {
@@ -50,8 +50,10 @@ const LoginPage = () => {
     ).then(resp => {
       if (resp.status === 200) { // 200(성공)인지 응답 상태 확인
         token = resp.headers.get("Authorization")
+        userId = resp.data.userid;
         // sessionStorage: 브라우저 내장 객체로서, 데이터 저장소
         sessionStorage.setItem("token", token); // 토큰 저장 (세션 저장소에)
+        sessionStorage.setItem("userid", userid);
         // 토큰만 저장한 이유? 
         // sessionStorage에 필요한 최소한의 정보만 저장하는 것이 바람직하다. 토큰만 저장하면 데이터 관리 또한 간편해진다.
         alert("로그인되었습니다.")
