@@ -1,1 +1,5 @@
+<<<<<<< .merge_file_AhC0C9
 12das123adadsadsadsdsdsadsadsssdds22asddassdasadsdasda
+=======
+12das123adadsadsadsdsdsadsadssss22asddassdasadsdasdaasdadsadsads
+>>>>>>> .merge_file_6OYOYG
